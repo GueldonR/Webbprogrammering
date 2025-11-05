@@ -4,6 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="styling/main.css" />
+    <link rel="stylesheet" href="styling/page-styling/page1.css" />
+    <link rel="stylesheet" href="styling/page-styling/page2.css" />
+    <link rel="stylesheet" href="styling/page-styling/page3.css" />
   </head>
-  <body></body>
+  <script type="module" src="javascript/app.js"></script>
+  <script type="module" src="router.js"></script>
+  <body>
+    <header>
+      <nav>
+        <div id="navigation-bar">
+          <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+              >&times;</a
+            >
+            <a href="/my-pages" class="nav__link" data-link>Flights</a>
+            <a href="/search_hotels" class="nav__link" data-link="">Hotels</a>
+            <a href="/explore" class="nav__link" data-link>Explore</a>
+            <a href="/contact" class="nav__link" data-link>Contact us</a>
+          </div>
+          <span onclick="openNav()">
+            <button id="sidebar-button">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </span>
+          <img href="/" src="attachments/logo_1.png" alt="Logo" />
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div id="rootdiv">
+        <div id="page1">
+          <h1>Where do you want to travel?</h1>
+          <a href="/search_flights" class="nav__link" data-link>Flights</a>
+          <a href="/search_hotels" class="nav__link" data-link="">Hotels</a>
+          <a href="/explore" class="nav__link" data-link>Explore</a>
+          <form action="">
+            <input
+              type="text"
+              placeholder="här ska man kunna välja destination osv"
+            />
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
