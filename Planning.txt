@@ -1,0 +1,40 @@
+Resebyrå
+
+Content: 
+
+        * Söka bland resor (begränsat antal biljetter), 
+        * Varukorg,
+        * bokningssida, 
+        * Kalender, 
+        * se mina sidor,
+        * Tidstagning,  
+        * Adminsida - skapa bokningar, 
+        (passerad, aktuell, antal dagar innan resan)
+
+        * Boka resor 
+
+        * fake tillägg i varukorg, Köp, mina resor
+
+        * minimalistikt 
+
+        * 
+
+Structure: 
+
+        * 
+
+        *
+
+        *
+
+
+Regler: 
+
+    - Single page 
+
+    - 
+
+
+Navigering: 
+
+    - 
