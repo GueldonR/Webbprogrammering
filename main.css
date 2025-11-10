@@ -1,0 +1,179 @@
+* {
+  padding: 0%;
+  margin: 0;
+  font-family: monospace;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+
+#navigation-bar-left {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  gap: 1em;
+}
+
+#navigation-bar-left img {
+  height: 10em;
+  width: 10em;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Dynamic container for all page content */
+#page-container {
+  color: #111;
+  width: 80%;
+  max-width: 80rem;
+  margin: 8vh auto 5vh auto;
+  padding: 4vh 3vw;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(1rem);
+  border-radius: 0.5rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Individual page inside the container */
+.pages {
+  display: none;
+  width: 100%;
+  background: inherit;
+  border-radius: 1rem;
+  padding: 2vh 2vw;
+  box-sizing: border-box;
+}
+
+/* individual page styling goes under here */
+#page1 {
+  display: block;
+}
+
+.pages {
+  transition: opacity 0.4s ease-in, transform 0.4s ease ease-in;
+}
+
+.pages.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pages.hide {
+  opacity: 0;
+  transform: translateY(2vh);
+}
+
+.button-menu-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: start;
+  margin: 2rem 0;
+}
+
+.button-menu-icons .menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.button-menu-icons button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 1.5rem;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff8c66, #ff5fa0);
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.button-menu-icons button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff6b4a, #ff3385);
+}
+
+.button-menu-icons p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+#main {
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+#sidebar-button {
+  background-color: transparent;
+  border: transparent;
+  width: 10em;
+  height: 10em;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 6px;
+}
+
+#sidebar-button span {
+  display: block;
+  width: 24px;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
