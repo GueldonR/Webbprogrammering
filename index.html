@@ -12,7 +12,7 @@
 
   <body>
     <header>
-      <nav>
+      <nav id="navigation-bar">
         <div id="navigation-bar-left">
           <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
@@ -20,25 +20,37 @@
             >
             <a
               href="javascript:void(0)"
-              onclick="showpage('page1')"
+              onclick="showpage('pageHome')"
+              class="hamburgerItem"
+              >Home</a
+            >
+            <a
+              href="javascript:void(0)"
+              onclick="showpage('pageFlights')"
               class="hamburgerItem"
               >Flights</a
             >
             <a
               href="javascript:void(0)"
-              onclick="showpage('page2')"
+              onclick="showpage('pageHotels')"
               class="hamburgerItem"
               >Hotels</a
             >
             <a
               href="javascript:void(0)"
-              onclick="showpage('page3')"
+              onclick="showpage('pageExplore')"
               class="hamburgerItem"
               >Explore</a
             >
             <a
+            href="javascript:void(0)"
+            onclick="showpage('pageRegister')"
+            class="hamburgerItem"
+            >Register</a
+          >
+            <a
               href="javascript:void(0)"
-              onclick="showpage('page4')"
+              onclick="showpage('pageContact')"
               class="hamburgerItem"
               >Contact us</a
             >
@@ -50,25 +62,36 @@
               <span></span>
             </button>
           </span>
-          <img src="attachments/logo_1.png" alt="Logo" />
+          <a href="javascript:void(0)" onclick="showpage('pageHome')" class="logo-link">
+            <img src="attachments/logo_1.png" alt="Logo" />
+          </a>
+        </div>
+        <div id="navigation-bar-login">
+          <button
+            type="button"
+            class="nav-login-button"
+            onclick="showpage('pageLogin')"
+          >
+            Login
+          </button>
         </div>
       </nav>
     </header>
 
     <main>
       <div id="page-container">
-        <div id="page1" class="pages">
+        <div id="pageHome" class="pages">
           <h1>Where do you want to travel?</h1>
           <p>debug buttons</p>
           <section class="button-menu-icons">
             <div class="menu-item">
-              <button onclick="showpage('page1')">
+              <button onclick="showpage('pageFlights')">
                 <img src="attachments/flight_takeoff.svg" alt="flight" />
               </button>
               <p>Search for flights</p>
             </div>
             <div class="menu-item">
-              <button onclick="showpage('page2')">
+              <button onclick="showpage('pageHotels')">
                 <img
                   src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
                   alt="flight"
@@ -77,7 +100,7 @@
               <p>Find hotels</p>
             </div>
             <div class="menu-item">
-              <button onclick="showpage('page3')">
+              <button onclick="showpage('pageExplore')">
                 <img
                   src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
                   alt="flight"
@@ -88,100 +111,132 @@
           </section>
         </div>
 
-        <div id="page2" class="pages">
-          <h1>Hotels Page</h1>
-          <p>debug buttons</p>
-          <section class="button-menu-icons">
-            <div class="menu-item">
-              <button onclick="showpage('page1')">
-                <img src="attachments/flight_takeoff.svg" alt="flight" />
-              </button>
-              <p>Search for flights</p>
+        <div id="pageFlights" class="pages">
+          <h1>Search Flights</h1>
+          <form class="flight-search-form">
+            <div class="form-row">
+              <label for="from">From</label>
+              <input type="text" id="from" name="from" placeholder="City or airport" />
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('page2')">
-                <img
-                  src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Find hotels</p>
+            <div class="form-row">
+              <label for="to">To</label>
+              <input type="text" id="to" name="to" placeholder="City or airport" />
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('page3')">
-                <img
-                  src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Discover destinations</p>
+            <div class="form-row two-column">
+              <div>
+                <label for="depart">Departure</label>
+                <input type="date" id="depart" name="depart" />
+              </div>
+              <div>
+                <label for="return">Return</label>
+                <input type="date" id="return" name="return" />
+              </div>
             </div>
-          </section>
+            <div class="form-row">
+              <label for="travelers">Travelers</label>
+              <input type="number" id="travelers" name="travelers" min="1" value="1" />
+            </div>
+            <button type="submit" class="primary-action">Find flights</button>
+          </form>
+        </div>
+
+        <div id="pageHotels" class="pages">
+          <h1>Search Hotels</h1>
+          <form class="hotel-search-form">
+            <div class="form-row">
+              <label for="destination">Destination</label>
+              <input type="text" id="destination" name="destination" placeholder="City or hotel name" />
+            </div>
+            <div class="form-row two-column">
+              <div>
+                <label for="checkin">Check-in</label>
+                <input type="date" id="checkin" name="checkin" />
+              </div>
+              <div>
+                <label for="checkout">Check-out</label>
+                <input type="date" id="checkout" name="checkout" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="guests">Guests</label>
+              <input type="number" id="guests" name="guests" min="1" value="1" />
+            </div>
+            <div class="form-row">
+              <label for="rooms">Rooms</label>
+              <input type="number" id="rooms" name="rooms" min="1" value="1" />
+            </div>
+            <button type="submit" class="primary-action">Find hotels</button>
+          </form>
+        </div>
+
+        <div id="pageExplore" class="pages">
+          <h1>Explore Page</h1>
           <p>create elements based on existing hotels</p>
         </div>
-
-        <div id="page3" class="pages">
-          <h1>Explore Page</h1>
-          <p>debug buttons</p>
-          <section class="button-menu-icons">
-            <div class="menu-item">
-              <button onclick="showpage('page1')">
-                <img src="attachments/flight_takeoff.svg" alt="flight" />
-              </button>
-              <p>Search for flights</p>
-            </div>
-            <div class="menu-item">
-              <button onclick="showpage('page2')">
-                <img
-                  src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Find hotels</p>
-            </div>
-            <div class="menu-item">
-              <button onclick="showpage('page3')">
-                <img
-                  src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Discover destinations</p>
-            </div>
-          </section>
-        </div>
-        <div id="page4" class="pages">
+        <div id="pageContact" class="pages">
           <h2>Contact us</h2>
-          <p>debug buttons</p>
-          <section class="button-menu-icons">
-            <div class="menu-item">
-              <button onclick="showpage('page1')">
-                <img src="attachments/flight_takeoff.svg" alt="flight" />
-              </button>
-              <p>Search for flights</p>
+          <p>contact us page</p>
+         
+        </div>
+        <div id="pageLogin" class="pages">
+          <h2>Welcome back</h2>
+          <p>Log in to access saved trips, fare alerts, and synced bookings.</p>
+          <form class="auth-form">
+            <div class="form-row">
+              <label for="loginEmail">Email</label>
+              <input type="email" id="loginEmail" name="loginEmail" placeholder="you@example.com" />
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('page2')">
-                <img
-                  src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Find hotels</p>
+            <div class="form-row">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" name="loginPassword" placeholder="••••••••" />
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('page3')">
-                <img
-                  src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
-                />
-              </button>
-              <p>Discover destinations</p>
+            <div class="form-row remember-row">
+              <label>
+                <input type="checkbox" name="rememberMe" />
+                Remember me
+              </label>
+              <a href="javascript:void(0)" class="link--ghost">Forgot password?</a>
             </div>
-          </section>
-          <p>Welcome to the Flights page.</p>
+            <button type="submit" class="primary-action">Log in</button>
+          </form>
+        </div>
+        <div id="pageRegister" class="pages">
+          <h2>Customer Registration</h2>
+          <p>
+            Create your account so you can save travelers, track bookings, and receive
+            personalized deals.
+          </p>
+          <form class="registration-form">
+            <div class="form-row">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" name="firstName" placeholder="e.g. Anna" />
+            </div>
+            <div class="form-row">
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" name="lastName" placeholder="e.g. Svensson" />
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-row">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="+46 70 123 45 67" />
+            </div>
+            <div class="form-row">
+              <label for="address">Address</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="3"
+                placeholder="Street, postal code, city"
+              ></textarea>
+            </div>
+            <button type="submit" class="primary-action">Register account</button>
+          </form>
         </div>
       </div>
+    </div>
     </main>
     <script src="javascript/navigation.js"></script>
     <script src="javascript/app.js"></script>

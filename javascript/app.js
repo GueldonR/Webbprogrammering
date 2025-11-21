@@ -1,6 +1,6 @@
 // hamburgermenu
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("mySidenav").style.width = "50vw";
 }
 
 function closeNav() {
@@ -8,10 +8,7 @@ function closeNav() {
 }
 
 document.querySelector(".closebtn").addEventListener("click", closeNav);
-document.querySelector("button").addEventListener("click", openNav);
+document
+  .getElementById("sidebar-button")
+  .addEventListener("click", openNav);
 
-// menu button func
-
-function buttonSelectedStyle() {
-  const button = document.getElementById("");
-}
