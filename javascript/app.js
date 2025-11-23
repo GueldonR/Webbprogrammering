@@ -8,7 +8,4 @@ function closeNav() {
 }
 
 document.querySelector(".closebtn").addEventListener("click", closeNav);
-document
-  .getElementById("sidebar-button")
-  .addEventListener("click", openNav);
-
+document.getElementById("sidebar-button").addEventListener("click", openNav);
