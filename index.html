@@ -32,22 +32,10 @@
             >
             <a
               href="javascript:void(0)"
-              onclick="showpage('pageHotels')"
+              onclick="showpage('pageRegister')"
               class="hamburgerItem"
-              >Hotels</a
+              >Register</a
             >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageExplore')"
-              class="hamburgerItem"
-              >Explore</a
-            >
-            <a
-            href="javascript:void(0)"
-            onclick="showpage('pageRegister')"
-            class="hamburgerItem"
-            >Register</a
-          >
             <a
               href="javascript:void(0)"
               onclick="showpage('pageContact')"
@@ -62,7 +50,11 @@
               <span></span>
             </button>
           </span>
-          <a href="javascript:void(0)" onclick="showpage('pageHome')" class="logo-link">
+          <a
+            href="javascript:void(0)"
+            onclick="showpage('pageHome')"
+            class="logo-link"
+          >
             <img src="attachments/logo_1.png" alt="Logo" />
           </a>
         </div>
@@ -81,34 +73,55 @@
     <main>
       <div id="page-container">
         <div id="pageHome" class="pages">
-          <h1>Where do you want to travel?</h1>
-          <p>debug buttons</p>
-          <section class="button-menu-icons">
-            <div class="menu-item">
-              <button onclick="showpage('pageFlights')">
+          <div class="hero-section">
+            <h1 class="hero-title">Discover Your Next Adventure</h1>
+            <p class="hero-subtitle">
+              Find the perfect flight to your dream destination
+            </p>
+            <button class="cta-button" onclick="showpage('pageFlights')">
+              Search Flights
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="features-section">
+            <div class="feature-card">
+              <div class="feature-icon">
                 <img src="attachments/flight_takeoff.svg" alt="flight" />
-              </button>
-              <p>Search for flights</p>
+              </div>
+              <h3>Best Prices</h3>
+              <p>Compare prices from multiple airlines</p>
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('pageHotels')">
+            <div class="feature-card">
+              <div class="feature-icon">
                 <img
                   src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
+                  alt="booking"
                 />
-              </button>
-              <p>Find hotels</p>
+              </div>
+              <h3>Easy Booking</h3>
+              <p>Simple and secure booking process</p>
             </div>
-            <div class="menu-item">
-              <button onclick="showpage('pageExplore')">
+            <div class="feature-card">
+              <div class="feature-icon">
                 <img
                   src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="flight"
+                  alt="support"
                 />
-              </button>
-              <p>Discover destinations</p>
+              </div>
+              <h3>24/7 Support</h3>
+              <p>We're here to help anytime</p>
             </div>
-          </section>
+          </div>
         </div>
 
         <div id="pageFlights" class="pages">
@@ -116,11 +129,21 @@
           <form class="flight-search-form">
             <div class="form-row">
               <label for="from">From</label>
-              <input type="text" id="from" name="from" placeholder="City or airport" />
+              <input
+                type="text"
+                id="from"
+                name="from"
+                placeholder="City or airport"
+              />
             </div>
             <div class="form-row">
               <label for="to">To</label>
-              <input type="text" id="to" name="to" placeholder="City or airport" />
+              <input
+                type="text"
+                id="to"
+                name="to"
+                placeholder="City or airport"
+              />
             </div>
             <div class="form-row two-column">
               <div>
@@ -134,49 +157,21 @@
             </div>
             <div class="form-row">
               <label for="travelers">Travelers</label>
-              <input type="number" id="travelers" name="travelers" min="1" value="1" />
+              <input
+                type="number"
+                id="travelers"
+                name="travelers"
+                min="1"
+                value="1"
+              />
             </div>
             <button type="submit" class="primary-action">Find flights</button>
           </form>
         </div>
 
-        <div id="pageHotels" class="pages">
-          <h1>Search Hotels</h1>
-          <form class="hotel-search-form">
-            <div class="form-row">
-              <label for="destination">Destination</label>
-              <input type="text" id="destination" name="destination" placeholder="City or hotel name" />
-            </div>
-            <div class="form-row two-column">
-              <div>
-                <label for="checkin">Check-in</label>
-                <input type="date" id="checkin" name="checkin" />
-              </div>
-              <div>
-                <label for="checkout">Check-out</label>
-                <input type="date" id="checkout" name="checkout" />
-              </div>
-            </div>
-            <div class="form-row">
-              <label for="guests">Guests</label>
-              <input type="number" id="guests" name="guests" min="1" value="1" />
-            </div>
-            <div class="form-row">
-              <label for="rooms">Rooms</label>
-              <input type="number" id="rooms" name="rooms" min="1" value="1" />
-            </div>
-            <button type="submit" class="primary-action">Find hotels</button>
-          </form>
-        </div>
-
-        <div id="pageExplore" class="pages">
-          <h1>Explore Page</h1>
-          <p>create elements based on existing hotels</p>
-        </div>
         <div id="pageContact" class="pages">
           <h2>Contact us</h2>
           <p>contact us page</p>
-         
         </div>
         <div id="pageLogin" class="pages">
           <h2>Welcome back</h2>
@@ -184,18 +179,30 @@
           <form class="auth-form">
             <div class="form-row">
               <label for="loginEmail">Email</label>
-              <input type="email" id="loginEmail" name="loginEmail" placeholder="you@example.com" />
+              <input
+                type="email"
+                id="loginEmail"
+                name="loginEmail"
+                placeholder="you@example.com"
+              />
             </div>
             <div class="form-row">
               <label for="loginPassword">Password</label>
-              <input type="password" id="loginPassword" name="loginPassword" placeholder="••••••••" />
+              <input
+                type="password"
+                id="loginPassword"
+                name="loginPassword"
+                placeholder="••••••••"
+              />
             </div>
             <div class="form-row remember-row">
               <label>
                 <input type="checkbox" name="rememberMe" />
                 Remember me
               </label>
-              <a href="javascript:void(0)" class="link--ghost">Forgot password?</a>
+              <a href="javascript:void(0)" class="link--ghost"
+                >Forgot password?</a
+              >
             </div>
             <button type="submit" class="primary-action">Log in</button>
           </form>
@@ -203,25 +210,45 @@
         <div id="pageRegister" class="pages">
           <h2>Customer Registration</h2>
           <p>
-            Create your account so you can save travelers, track bookings, and receive
-            personalized deals.
+            Create your account so you can save travelers, track bookings, and
+            receive personalized deals.
           </p>
           <form class="registration-form">
             <div class="form-row">
               <label for="firstName">First name</label>
-              <input type="text" id="firstName" name="firstName" placeholder="e.g. Anna" />
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="e.g. Anna"
+              />
             </div>
             <div class="form-row">
               <label for="lastName">Last name</label>
-              <input type="text" id="lastName" name="lastName" placeholder="e.g. Svensson" />
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="e.g. Svensson"
+              />
             </div>
             <div class="form-row">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+              />
             </div>
             <div class="form-row">
               <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" placeholder="+46 70 123 45 67" />
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="+46 70 123 45 67"
+              />
             </div>
             <div class="form-row">
               <label for="address">Address</label>
@@ -232,11 +259,12 @@
                 placeholder="Street, postal code, city"
               ></textarea>
             </div>
-            <button type="submit" class="primary-action">Register account</button>
+            <button type="submit" class="primary-action">
+              Register account
+            </button>
           </form>
         </div>
       </div>
-    </div>
     </main>
     <script src="javascript/navigation.js"></script>
     <script src="javascript/app.js"></script>
