@@ -4,8 +4,8 @@
 			// THIS FILE MUST BE RENAMED TO dbconnect.php AND YOU MUST UPDATE WITH CORRECT DB CREDENTIALS BELOW
 			// THIS FILE MUST BE RENAMED TO dbconnect.php AND YOU MUST UPDATE WITH CORRECT DB CREDENTIALS BELOW
 			//---------------------------------------------------------------------------------------------------------------
-			define("DB_USER","USER FROM CONSTRUCTION COURSE");
-			define("DB_PASSWORD","PASSWORD FROM CONSTRUCTION COURSE");
+			define("DB_USER","dbkonstruktion");
+			define("DB_PASSWORD","Lemur!25");
 
 			define("DB_HOST","localhost");
 			define("DB_NAME","BookingSystem");
