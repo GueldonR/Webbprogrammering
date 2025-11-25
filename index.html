@@ -170,27 +170,19 @@
           <h2>Contact us</h2>
           <p>contact us page</p>
         </div>
+        <div id="pageMyPage" class="pages">
+          <h2></h2>
+          <p></p>
+        </div>
         <div id="pageLogin" class="pages">
           <h2>Welcome back</h2>
           <p>Log in to access saved trips, fare alerts, and synced bookings.</p>
-          <form class="auth-form">
-            <div class="form-row">
-              <label for="loginEmail">Email</label>
-              <input
-                type="email"
-                id="loginEmail"
-                name="loginEmail"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div class="form-row">
-              <label for="loginPassword">Password</label>
-              <input
-                type="password"
-                id="loginPassword"
-                name="loginPassword"
-                placeholder="••••••••"
-              />
+          <form id="search-customer-form" class="auth-form">
+            <div class="form-row remember-row">
+              <label>
+                <input type="text" name="rememberMe" id="custidentification" />
+                Användar-ID
+              </label>
             </div>
             <div class="form-row remember-row">
               <label>
@@ -201,6 +193,7 @@
                 >Forgot password?</a
               >
             </div>
+            <div id="CustomerOutputDiv"></div>
             <button type="submit" class="primary-action">Log in</button>
           </form>
         </div>
