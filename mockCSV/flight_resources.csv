@@ -1,0 +1,11 @@
+ID,name,type,company,location,category,size,cost,auxdata
+FL001,Nordic Express 101,flight,Nordic Airways,Stockholm-Copenhagen,Domestic,180,299,Morning departure 08:00
+FL002,Nordic Express 205,flight,Nordic Airways,Stockholm-London,International,220,899,Direct flight 10:30
+FL003,Nordic Express 312,flight,Nordic Airways,Stockholm-Paris,International,200,1199,Evening departure 18:45
+FL004,Nordic Express 156,flight,Nordic Airways,Stockholm-Oslo,Domestic,150,249,Quick 1h flight 12:15
+FL005,Nordic Express 789,flight,Nordic Airways,Stockholm-Amsterdam,International,190,799,Business class available 14:20
+FL006,Nordic Express 445,flight,Nordic Airways,Stockholm-Berlin,International,180,699,Weekend special 16:30
+FL007,Nordic Express 623,flight,Nordic Airways,Stockholm-Helsinki,Domestic,160,199,Short hop 07:45
+FL008,Nordic Express 891,flight,Nordic Airways,Stockholm-Rome,International,210,1399,Mediterranean route 11:00
+FL009,Nordic Express 334,flight,Nordic Airways,Stockholm-Barcelona,International,195,1099,Sunny destination 13:15
+FL010,Nordic Express 567,flight,Nordic Airways,Stockholm-Reykjavik,International,170,649,Northern lights special 19:30

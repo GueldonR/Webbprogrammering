@@ -30,5 +30,10 @@ function showpage(pageid) {
   var targetPage = document.getElementById(pageid);
   if (targetPage) {
     targetPage.style.display = "block";
+
+    // Update page-specific content
+    if (pageid === "pageMyPage" && typeof updateMyPageWelcome === "function") {
+      updateMyPageWelcome();
+    }
   }
 }

@@ -41,7 +41,6 @@ nav#navigation-bar {
 }
 
 #navigation-bar-left {
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +60,8 @@ nav#navigation-bar {
   margin-left: auto;
 }
 
-#navigation-bar-login .nav-login-button {
+#navigation-bar-login .nav-login-button,
+#navigation-bar-login .nav-logout-button {
   background: linear-gradient(120deg, var(--accent-pink), var(--accent-orange));
   border: none;
   color: #fff;
@@ -71,11 +71,17 @@ nav#navigation-bar {
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-left: 0.5rem;
 }
 
-#navigation-bar-login .nav-login-button:hover {
+#navigation-bar-login .nav-login-button:hover,
+#navigation-bar-login .nav-logout-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 30px rgba(255, 79, 154, 0.35);
+}
+
+#navigation-bar-login .nav-logout-button {
+  background: linear-gradient(120deg, var(--accent-cyan), var(--accent-pink));
 }
 
 .sidenav {
@@ -149,7 +155,12 @@ main {
 .hero-title {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 800;
-  background: linear-gradient(120deg, var(--accent-pink), var(--accent-orange), var(--accent-cyan));
+  background: linear-gradient(
+    120deg,
+    var(--accent-pink),
+    var(--accent-orange),
+    var(--accent-cyan)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -468,4 +479,3 @@ form {
   transition: margin-left 0.5s;
   padding: 20px;
 }
-
