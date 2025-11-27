@@ -1,2 +1,34 @@
-Skapa en "mina sidor"
-add transition animation to showpage
+
+1. Steg 3: Form validation — `validation.js` is empty
+   - Need: Multiple HTML events (keypress, mousedown, mouseup, focus, input, change, load)
+   - Need: Validation for email, phone, names, address
+
+2. Steg 7: React booking history — Not found
+   - Need: React + Babel implementation
+   - Need: Booking history rendered with React
+   - Need: HTML table layout (not just divs)
+   - Need: Fetch API integration
+
+### What you have
+
+- Steg 1: SPA navigation — Done
+- Steg 2: History API — Done
+- Steg 6: LocalStorage — Done
+- Steg 5: API integration — Partially done (user login/registration)
+
+### What needs verification
+
+- Steg 4: CSS animations — Need to check `main.css`
+- Steg 5: Search functionality — Need to check if flight search works
+- Steg 5: Booking functionality — Need to check if booking screen exists
+- Steg 1: Booking history screen — Need to check if it exists
+
+## Action items before submission
+
+1. Implement form validation (Steg 3)
+2. Implement React booking history (Steg 7)
+3. Verify all screens exist (booking, search results, booking history)
+4. Verify CSS animations are implemented
+5. Test all functionality end-to-end
+
+Should I implement the missing parts (validation and React booking history) now?
