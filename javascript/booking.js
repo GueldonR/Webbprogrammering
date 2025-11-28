@@ -47,14 +47,9 @@ function makeBooking() {
     return;
   }
 
-  // Show loading animation before search is preformed
   const resultDiv = document.getElementById("booking-result");
   resultDiv.innerHTML =
     '<div class="loading-spinner">Processing booking...</div>';
-  resultDiv.style.opacity = "0";
-  setTimeout(() => {
-    resultDiv.style.opacity = "1";
-  }, 100);
 
   const input = {
     customerID: customerID,
@@ -111,3 +106,5 @@ function makeBooking() {
       resultDiv.innerHTML = `<p style="color: #ff4f9a;">Request failed: ${error}</p>`;
     });
 }
+
+// fix the error handling

@@ -171,26 +171,10 @@ function resetNavigationForLoggedOutUser() {
 
 // Initialize app state on page load
 document.addEventListener("DOMContentLoaded", function () {
-  // Check if user is already logged in from previous session
   const userId = localStorage.getItem("user_id");
-  const loginTime = localStorage.getItem("loginTime");
-
-  if (userId && loginTime) {
-    // Check if session is still valid (24 hours)
-    const loginDate = new Date(loginTime);
-    const now = new Date();
-    const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
-
-    if (hoursDiff < 24) {
-      // User is logged in, update UI
-      updateNavigationForLoggedInUser();
-    } else {
-      // Session expired, clear storage
-      clearUserFromLocalStorage();
-      resetNavigationForLoggedOutUser();
-    }
+  if (userId) {
+    updateNavigationForLoggedInUser();
   } else {
-    // No saved user, show logged out state
     resetNavigationForLoggedOutUser();
   }
 });
