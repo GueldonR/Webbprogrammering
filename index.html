@@ -146,47 +146,65 @@
         </div>
 
         <div id="pageFlights" class="pages">
-          <h1>Search Flights</h1>
+          <h1>Search Flight-Routes</h1>
           <form id="flight-search-form" class="flight-search-form">
             <div class="form-row">
-              <label for="from">From</label>
+              <label for="resIDS">Resource ID</label>
               <input
                 type="text"
-                id="from"
-                name="from"
-                placeholder="City or airport"
+                id="resIDS"
+                name="resIDS"
+                placeholder="e.g. FL001"
               />
             </div>
             <div class="form-row">
-              <label for="to">To</label>
+              <label for="resNameS">Name</label>
               <input
                 type="text"
-                id="to"
-                name="to"
-                placeholder="City or airport"
+                id="resNameS"
+                name="resNameS"
+                placeholder="e.g. Nordic Express 101"
               />
-            </div>
-            <div class="form-row two-column">
-              <div>
-                <label for="depart">Departure</label>
-                <input type="date" id="depart" name="depart" />
-              </div>
-              <div>
-                <label for="return">Return</label>
-                <input type="date" id="return" name="return" />
-              </div>
             </div>
             <div class="form-row">
-              <label for="travelers">Travelers</label>
+              <label for="resLocationS">Location</label>
               <input
-                type="number"
-                id="travelers"
-                name="travelers"
-                min="1"
-                value="1"
+                type="text"
+                id="resLocationS"
+                name="resLocationS"
+                placeholder="e.g. Stockholm-Copenhagen"
               />
             </div>
-            <button type="submit" class="primary-action">Find flights</button>
+            <div class="form-row">
+              <label for="resCompanyS">Company</label>
+              <input
+                type="text"
+                id="resCompanyS"
+                name="resCompanyS"
+                placeholder="e.g. Nordic Airways"
+              />
+            </div>
+            <div class="form-row">
+              <label for="resCategoryS">Category</label>
+              <input
+                type="text"
+                id="resCategoryS"
+                name="resCategoryS"
+                placeholder="e.g. Domestic"
+              />
+            </div>
+            <div class="form-row">
+              <label for="resFulltextS">Full Text Search</label>
+              <input
+                type="text"
+                id="resFulltextS"
+                name="resFulltextS"
+                placeholder="Search all fields at once"
+              />
+            </div>
+            <button type="submit" class="primary-action">
+              Search Resources
+            </button>
           </form>
           <div id="search-results" style="margin-top: 2rem"></div>
         </div>

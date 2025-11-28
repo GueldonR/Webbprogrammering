@@ -31,11 +31,12 @@ function setupSearch() {
 
 function saveSearchToLocalStorage() {
   const searchData = {
-    from: document.getElementById("from")?.value || "",
-    to: document.getElementById("to")?.value || "",
-    depart: document.getElementById("depart")?.value || "",
-    return: document.getElementById("return")?.value || "",
-    travelers: document.getElementById("travelers")?.value || "1",
+    resIDS: document.getElementById("resIDS")?.value || "",
+    resNameS: document.getElementById("resNameS")?.value || "",
+    resLocationS: document.getElementById("resLocationS")?.value || "",
+    resCompanyS: document.getElementById("resCompanyS")?.value || "",
+    resCategoryS: document.getElementById("resCategoryS")?.value || "",
+    resFulltextS: document.getElementById("resFulltextS")?.value || "",
   };
   localStorage.setItem("lastSearch", JSON.stringify(searchData));
 }
@@ -45,15 +46,18 @@ function loadSearchFromLocalStorage() {
   if (savedSearch) {
     try {
       const searchData = JSON.parse(savedSearch);
-      if (searchData.from)
-        document.getElementById("from").value = searchData.from;
-      if (searchData.to) document.getElementById("to").value = searchData.to;
-      if (searchData.depart)
-        document.getElementById("depart").value = searchData.depart;
-      if (searchData.return)
-        document.getElementById("return").value = searchData.return;
-      if (searchData.travelers)
-        document.getElementById("travelers").value = searchData.travelers;
+      if (searchData.resIDS)
+        document.getElementById("resIDS").value = searchData.resIDS;
+      if (searchData.resNameS)
+        document.getElementById("resNameS").value = searchData.resNameS;
+      if (searchData.resLocationS)
+        document.getElementById("resLocationS").value = searchData.resLocationS;
+      if (searchData.resCompanyS)
+        document.getElementById("resCompanyS").value = searchData.resCompanyS;
+      if (searchData.resCategoryS)
+        document.getElementById("resCategoryS").value = searchData.resCategoryS;
+      if (searchData.resFulltextS)
+        document.getElementById("resFulltextS").value = searchData.resFulltextS;
     } catch (e) {
       console.error("Error loading search from localStorage:", e);
     }
@@ -69,24 +73,22 @@ function loadSearchFromLocalStorage() {
 // If fulltext is given all attributes are searched at once
 //------------------------------------------------------------------------
 function performSearch() {
-  const from = document.getElementById("from")?.value || "";
-  const to = document.getElementById("to")?.value || "";
-
-  // Build search parameters - use fulltext if both fields filled, otherwise individual
+  // Get search values from form inputs
   var input = {
     type: apptype,
-    name: from || "UNK",
-    location: to || "UNK",
-    company: "UNK",
-    resID: "UNK",
-    category: "UNK",
+    name: document.getElementById("resNameS")?.value || "UNK",
+    location: document.getElementById("resLocationS")?.value || "UNK",
+    company: document.getElementById("resCompanyS")?.value || "UNK",
+    resID: document.getElementById("resIDS")?.value || "UNK",
+    category: document.getElementById("resCategoryS")?.value || "UNK",
   };
 
   // If we use Free text search - do not combine with matches we overwrite if free search is given
-  if (from && to) {
+  const fulltextValue = document.getElementById("resFulltextS")?.value || "";
+  if (fulltextValue !== "") {
     input = {
       type: apptype,
-      fulltext: from + " " + to,
+      fulltext: fulltextValue,
     };
   }
 
@@ -98,8 +100,8 @@ function performSearch() {
     resultsDiv.style.opacity = "1";
   }, 100);
 
-  // Use getavailability_search_XML.php to get available flights with dates
-  fetch("../API/booking/getavailability_search_XML.php", {
+  // Use getresources_XML.php to get resources
+  fetch("../API/booking/getresources_XML.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
@@ -124,9 +126,9 @@ function performSearch() {
 
 function displaySearchResults(xmlDoc) {
   const resultsDiv = document.getElementById("search-results");
-  const availabilities = xmlDoc.getElementsByTagName("availability");
+  const resources = xmlDoc.getElementsByTagName("resource");
 
-  if (availabilities.length === 0) {
+  if (resources.length === 0) {
     resultsDiv.innerHTML =
       '<p style="color: #b7bfd6;">No flights found. Try different search criteria.</p>';
     return;
@@ -137,43 +139,51 @@ function displaySearchResults(xmlDoc) {
     '<table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">';
   html += '<thead><tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">';
   html +=
+    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">ID</th>';
+  html +=
     '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Name</th>';
+  html +=
+    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Type</th>';
   html +=
     '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Company</th>';
   html +=
     '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Location</th>';
   html +=
-    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Date</th>';
+    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Category</th>';
+  html +=
+    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Size</th>';
   html +=
     '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Cost</th>';
   html +=
-    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Available</th>';
+    '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Auxdata</th>';
   html +=
     '<th style="padding: 10px; text-align: left; color: #b7bfd6;">Action</th>';
   html += "</tr></thead><tbody>";
 
-  for (let i = 0; i < availabilities.length; i++) {
-    const avail = availabilities[i];
-    const resourceID = avail.getAttribute("resourceID");
-    const name = avail.getAttribute("name");
-    const company = avail.getAttribute("company");
-    const location = avail.getAttribute("location");
-    const date = avail.getAttribute("date");
-    const cost = avail.getAttribute("cost");
-    const remaining = avail.getAttribute("remaining");
+  for (let i = 0; i < resources.length; i++) {
+    const resource = resources[i];
+    const id = resource.getAttribute("id");
+    const name = resource.getAttribute("name");
+    const company = resource.getAttribute("company");
+    const location = resource.getAttribute("location");
+    const category = resource.getAttribute("category");
+    const size = resource.getAttribute("size");
+    const cost = resource.getAttribute("cost");
+    const auxdata = resource.getAttribute("auxdata") || "-";
 
     html += '<tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">';
+    html += '<td style="padding: 10px; color: #f5f7ff;">' + id + "</td>";
     html += '<td style="padding: 10px; color: #f5f7ff;">' + name + "</td>";
+    html += '<td style="padding: 10px; color: #f5f7ff;">' + apptype + "</td>";
     html += '<td style="padding: 10px; color: #f5f7ff;">' + company + "</td>";
     html += '<td style="padding: 10px; color: #f5f7ff;">' + location + "</td>";
-    html += '<td style="padding: 10px; color: #f5f7ff;">' + date + "</td>";
+    html += '<td style="padding: 10px; color: #f5f7ff;">' + category + "</td>";
+    html += '<td style="padding: 10px; color: #f5f7ff;">' + size + "</td>";
     html += '<td style="padding: 10px; color: #f5f7ff;">' + cost + " SEK</td>";
-    html += '<td style="padding: 10px; color: #f5f7ff;">' + remaining + "</td>";
+    html += '<td style="padding: 10px; color: #f5f7ff;">' + auxdata + "</td>";
     html +=
       '<td style="padding: 10px;"><button class="book-btn" onclick="selectForBooking(\'' +
-      resourceID +
-      "','" +
-      date +
+      id +
       "','" +
       cost +
       '\')" style="background: linear-gradient(120deg, #ff4f9a, #ffb347); border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer;">Book</button></td>';
@@ -184,14 +194,13 @@ function displaySearchResults(xmlDoc) {
   resultsDiv.innerHTML = html;
 }
 
-function selectForBooking(resourceID, date, cost) {
+function selectForBooking(resourceID, cost) {
   // Navigate to booking page
   showpage("pageBooking");
 
   // Fill in booking form
   setTimeout(() => {
     document.getElementById("booking-resourceID").value = resourceID;
-    document.getElementById("booking-date").value = date.replace(" ", "T");
 
     // Set default position to 1
     document.getElementById("booking-position").value = 1;
