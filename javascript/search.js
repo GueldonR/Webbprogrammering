@@ -1,8 +1,6 @@
 // Search functionality with API integration
 // Based on course material implementation
-
-var apptype = "TravelDoctor";
-
+// Note: apptype is defined globally in navigation.js
 // Note: fixChars function is already defined in user.js and available globally
 
 // Initialize search on page load

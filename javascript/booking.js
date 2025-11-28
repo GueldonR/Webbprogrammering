@@ -1,7 +1,5 @@
 // Booking functionality
 
-var apptype = "TravelDoctor";
-
 // Initialize booking form
 document.addEventListener("DOMContentLoaded", function () {
   setupBookingForm();
@@ -19,7 +17,7 @@ function setupBookingForm() {
   // Auto-fill dateto if empty
   const dateInput = document.getElementById("booking-date");
   const datetoInput = document.getElementById("booking-dateto");
-  
+
   if (dateInput && datetoInput) {
     dateInput.addEventListener("change", function () {
       if (!datetoInput.value) {
@@ -31,7 +29,7 @@ function setupBookingForm() {
 
 function makeBooking() {
   const customerID = localStorage.getItem("user_id");
-  
+
   if (!customerID) {
     alert("Please log in first");
     showpage("pageLogin");
@@ -51,7 +49,8 @@ function makeBooking() {
 
   // Show loading animation
   const resultDiv = document.getElementById("booking-result");
-  resultDiv.innerHTML = '<div class="loading-spinner">Processing booking...</div>';
+  resultDiv.innerHTML =
+    '<div class="loading-spinner">Processing booking...</div>';
   resultDiv.style.opacity = "0";
   setTimeout(() => {
     resultDiv.style.opacity = "1";
@@ -82,12 +81,12 @@ function makeBooking() {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, "text/xml");
       const result = xmlDoc.getElementsByTagName("result")[0];
-      
+
       if (result) {
         const size = result.getAttribute("size");
         const bookingcost = result.getAttribute("bookingcost");
         const remaining = result.getAttribute("remaining");
-        
+
         resultDiv.innerHTML = `
           <div style="background: rgba(54, 240, 232, 0.1); border: 1px solid #36f0e8; border-radius: 1rem; padding: 1.5rem; color: #f5f7ff;">
             <h3 style="color: #36f0e8; margin-bottom: 1rem;">Booking Successful!</h3>
@@ -99,7 +98,7 @@ function makeBooking() {
             </button>
           </div>
         `;
-        
+
         // Clear form
         document.getElementById("booking-form").reset();
         document.getElementById("booking-resourceID").value = "";
@@ -116,4 +115,3 @@ function makeBooking() {
       resultDiv.innerHTML = `<p style="color: #ff4f9a;">Request failed: ${error}</p>`;
     });
 }
-

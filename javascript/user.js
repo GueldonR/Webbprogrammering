@@ -118,9 +118,6 @@ function ResultCustomers(returnedData) {
       // Update navigation bar with user name
       updateNavigationForLoggedInUser();
 
-      // Update My Page welcome message
-      updateMyPageWelcome();
-
       // call the desired home page
       showpage("pageMyPage");
     }
@@ -141,19 +138,6 @@ function updateNavigationForLoggedInUser() {
 
   if (logoutButton) {
     logoutButton.style.display = "inline-block";
-  }
-}
-
-function updateMyPageWelcome() {
-  const firstname = localStorage.getItem("user_firstname");
-  if (firstname) {
-    const myPageDiv = document.getElementById("pageMyPage");
-    if (myPageDiv) {
-      const welcomeSection = myPageDiv.querySelector(".welcome-section h2");
-      if (welcomeSection) {
-        welcomeSection.textContent = "Welcome back, " + firstname + "!";
-      }
-    }
   }
 }
 
