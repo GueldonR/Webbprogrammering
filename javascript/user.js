@@ -115,12 +115,6 @@ function ResultCustomers(returnedData) {
       );
       localStorage.setItem("loginTime", new Date().toISOString());
 
-      // Update login display
-      var div = document.getElementById("CustomerOutputDiv");
-      const firstname = localStorage.getItem("user_firstname");
-      const lastname = localStorage.getItem("user_lastname");
-      div.innerHTML = "Login successful! Welcome " + firstname + " " + lastname;
-
       // Update navigation bar with user name
       updateNavigationForLoggedInUser();
 

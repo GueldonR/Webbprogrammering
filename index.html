@@ -39,6 +39,12 @@
             >
             <a
               href="javascript:void(0)"
+              onclick="showpage('pageBooking')"
+              class="hamburgerItem"
+              >Book</a
+            >
+            <a
+              href="javascript:void(0)"
               onclick="showpage('pageRegister')"
               class="hamburgerItem"
               >Register</a
@@ -141,7 +147,7 @@
 
         <div id="pageFlights" class="pages">
           <h1>Search Flights</h1>
-          <form class="flight-search-form">
+          <form id="flight-search-form" class="flight-search-form">
             <div class="form-row">
               <label for="from">From</label>
               <input
@@ -182,8 +188,58 @@
             </div>
             <button type="submit" class="primary-action">Find flights</button>
           </form>
+          <div id="search-results" style="margin-top: 2rem"></div>
         </div>
 
+        <div id="pageBooking" class="pages">
+          <h2>Make a Booking</h2>
+          <p>Select a flight from search results to book</p>
+          <form id="booking-form" class="registration-form">
+            <div class="form-row">
+              <label for="booking-resourceID">Resource ID</label>
+              <input
+                type="text"
+                id="booking-resourceID"
+                name="resourceID"
+                required
+                readonly
+              />
+            </div>
+            <div class="form-row">
+              <label for="booking-date">Date</label>
+              <input
+                type="datetime-local"
+                id="booking-date"
+                name="date"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label for="booking-dateto">Date To</label>
+              <input type="datetime-local" id="booking-dateto" name="dateto" />
+            </div>
+            <div class="form-row">
+              <label for="booking-position">Position</label>
+              <input
+                type="number"
+                id="booking-position"
+                name="position"
+                min="1"
+                value="1"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label for="booking-status">Status</label>
+              <select id="booking-status" name="status" required>
+                <option value="1">Preliminary (1)</option>
+                <option value="2">Permanent (2)</option>
+              </select>
+            </div>
+            <button type="submit" class="primary-action">Make Booking</button>
+          </form>
+          <div id="booking-result" style="margin-top: 1rem"></div>
+        </div>
         <div id="pageContact" class="pages">
           <h2>Contact us</h2>
           <p>contact us page</p>
@@ -254,7 +310,6 @@
                 >Forgot password?</a
               >
             </div>
-            <div id="CustomerOutputDiv"></div>
             <button type="submit" class="primary-action" id="login-sumbit">
               Log in
             </button>
@@ -324,5 +379,8 @@
     <script src="javascript/app.js"></script>
     <script src="javascript/mypage.js"></script>
     <script src="javascript/user.js"></script>
+    <script src="javascript/validation.js"></script>
+    <script src="javascript/search.js"></script>
+    <script src="javascript/booking.js"></script>
   </body>
 </html>

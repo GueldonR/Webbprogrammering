@@ -536,3 +536,84 @@ form {
   transition: margin-left 0.5s;
   padding: 20px;
 }
+
+/* Animations for showing/hiding elements */
+.pages {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner animation */
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: #b7bfd6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Error message animation */
+.error-message {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth transitions for form inputs */
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+  transition: all 0.3s ease;
+}
+
+/* Table row hover animation */
+#search-results table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+#search-results table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Booking button animation */
+.book-btn {
+  transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 79, 154, 0.3);
+}
+
+/* Search results fade in */
+#search-results {
+  transition: opacity 0.4s ease;
+}
