@@ -163,40 +163,7 @@ function updateMyPageWelcome() {
   }
 }
 
-// LocalStorage functions - Pure localStorage implementation
-function saveUserToLocalStorage(userData) {
-  try {
-    localStorage.setItem("currentUser", JSON.stringify(userData));
-    localStorage.setItem("loginTime", new Date().toISOString());
-  } catch (error) {
-    console.error("Failed to save user to localStorage:", error);
-  }
-}
-
-function getCurrentUser() {
-  try {
-    const userData = localStorage.getItem("currentUser");
-    const loginTime = localStorage.getItem("loginTime");
-
-    if (userData && loginTime) {
-      // Check if session is still valid (24 hours)
-      const loginDate = new Date(loginTime);
-      const now = new Date();
-      const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
-
-      if (hoursDiff < 24) {
-        return JSON.parse(userData);
-      } else {
-        // Session expired, clear storage
-        clearUserFromLocalStorage();
-      }
-    }
-  } catch (error) {
-    console.error("Failed to load user from localStorage:", error);
-  }
-  return null;
-}
-
+// LocalStorage functions
 function clearUserFromLocalStorage() {
   localStorage.clear();
 }
@@ -206,12 +173,6 @@ function logout() {
   resetNavigationForLoggedOutUser();
   showpage("pageHome");
   alert("You have been logged out successfully.");
-}
-
-// Minimal helper - get any user field with one function
-function getUser(field) {
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  return user ? user[field] : null;
 }
 
 function resetNavigationForLoggedOutUser() {
