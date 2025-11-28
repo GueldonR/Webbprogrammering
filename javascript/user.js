@@ -79,9 +79,6 @@ function showCustomer() {
       // catch
       alert("Request failed\n" + error);
     });
-
-  // call the desired home page
-  showpage("pageMyPage");
 }
 
 function ResultCustomers(returnedData) {
@@ -129,6 +126,9 @@ function ResultCustomers(returnedData) {
 
       // Update My Page welcome message
       updateMyPageWelcome();
+
+      // call the desired home page
+      showpage("pageMyPage");
     }
   }
 }

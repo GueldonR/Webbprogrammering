@@ -3,11 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Travel-Doctor</title>
     <link rel="stylesheet" href="main.css" />
   </head>
 
   <body>
+    <!-- react delen  -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script
+      src="https://unpkg.com/react@16/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+      crossorigin
+    ></script>
     <header>
       <nav id="navigation-bar">
         <div id="navigation-bar-left">
@@ -212,6 +222,10 @@
                 </div>
               </div>
             </div>
+            <div class="mypage-info-section" style="margin-top: 1%">
+              <h1>Your bookings:</h1>
+              <section id="react-data-dump"></section>
+            </div>
           </div>
         </div>
         <div id="pageLogin" class="pages">
@@ -296,9 +310,9 @@
         </div>
       </div>
     </main>
-    <script src="javascript/mypage.js"></script>
     <script src="javascript/navigation.js"></script>
     <script src="javascript/app.js"></script>
+    <script src="javascript/mypage.js"></script>
     <script src="javascript/user.js"></script>
   </body>
 </html>
