@@ -1,20 +1,83 @@
-function Product(props) {
+const cellStyle = {
+  padding: "10px",
+  textAlign: "left",
+  borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+  color: "#f5f7ff",
+};
+
+const headerStyle = {
+  padding: "10px",
+  textAlign: "left",
+  color: "#b7bfd6",
+  fontWeight: "600",
+  borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+};
+
+function BookingRow(props) {
   return (
-    <li>
-      {props.name} {props.color}
-    </li>
+    <tr>
+      <td style={cellStyle}>{props.name || "-"}</td>
+      <td style={cellStyle}>{props.company || "-"}</td>
+      <td style={cellStyle}>{props.location || "-"}</td>
+      <td style={cellStyle}>{props.date || "-"}</td>
+      <td style={cellStyle}>{props.dateto || "-"}</td>
+      <td style={cellStyle}>{props.cost || "-"}</td>
+      <td style={cellStyle}>{props.status || "-"}</td>
+    </tr>
   );
 }
 
 class ProductList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
-    const listItems = this.props.codes.map((code) => (
-      <Product key={code.code} name={code.name} color={code.color} />
-    ));
-    return <ul>{listItems}</ul>;
+    if (!this.props.bookings || this.props.bookings.length === 0) {
+      return (
+        <p style={{ padding: "20px", color: "#b7bfd6" }}>No bookings found.</p>
+      );
+    }
+
+    const headers = [
+      "Name",
+      "Company",
+      "Location",
+      "Date From",
+      "Date To",
+      "Cost",
+      "Status",
+    ];
+
+    return (
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          marginTop: "20px",
+        }}
+      >
+        <thead>
+          <tr>
+            {headers.map((h) => (
+              <th key={h} style={headerStyle}>
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.bookings.map((booking) => (
+            <BookingRow
+              key={booking.key}
+              name={booking.name}
+              company={booking.company}
+              location={booking.location}
+              date={booking.date}
+              dateto={booking.dateto}
+              cost={booking.cost}
+              status={booking.status}
+            />
+          ))}
+        </tbody>
+      </table>
+    );
   }
 }
 
@@ -27,64 +90,10 @@ class ProductList extends React.Component {
 // Implementera sortering i sökningssidan
 // implementera error hantering på login och registrering
 
-async function getData() {
-  // lägg till urlen för att hämta bookings
-  const Type = localStorage.getItem("travel_type") || "TravelDoctor";
-  const custID = localStorage.getItem("user_id");
-
-  if (!custID) {
-    console.error("No customer ID found");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      "../API/booking/getcustomerbookings_JSON.php",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ customerID: custID, type: Type }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("Bookings loaded:", data);
-
-    ReactDOM.render(
-      <ProductList codes={data} />,
-      // peka på ett div där du vill skriva ut datan
-      document.getElementById("react-data-dump")
-    );
-  } catch (error) {
-    console.error("Error loading bookings:", error);
-    ReactDOM.render(
-      <div style={{ color: "red" }}>
-        Error loading bookings: {error.message}
-      </div>,
-      document.getElementById("react-data-dump")
-    );
-  }
+function ResultBookingsCustomer(returnedData) {
+  // Here we render using React
+  ReactDOM.render(
+    <ProductList bookings={returnedData} />,
+    document.getElementById("react-data-dump")
+  );
 }
-
-// Listen for loadCustData event from login button
-// CANT DO THIS ITS NOT IN MEM YET
-document.addEventListener("loadCustData", function () {
-  const custID = localStorage.getItem("user_id");
-  if (custID) {
-    getData();
-  } else {
-    console.warn("Customer ID not available yet");
-  }
-});
-
-// Dispatch event when login button is clicked
-document
-  .getElementById("search-customer-form")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    document.dispatchEvent(new Event("loadCustData"));
-  });

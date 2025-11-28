@@ -223,7 +223,14 @@
               </div>
             </div>
             <div class="mypage-info-section" style="margin-top: 1%">
-              <h1>Your bookings:</h1>
+              <button
+                id="booking-history-btn"
+                class="cta-button"
+                style="width: 100%; height: 100%"
+                onclick="getData();"
+              >
+                Load your bookings
+              </button>
               <section id="react-data-dump"></section>
             </div>
           </div>
@@ -312,10 +319,10 @@
         </div>
       </div>
     </main>
+    <script type="text/babel" src="javascript/react-babel.js"></script>
     <script src="javascript/navigation.js"></script>
     <script src="javascript/app.js"></script>
     <script src="javascript/mypage.js"></script>
-    <script type="text/babel" src="javascript/react-babel.js"></script>
     <script src="javascript/user.js"></script>
   </body>
 </html>
