@@ -47,7 +47,7 @@ function makeBooking() {
     return;
   }
 
-  // Show loading animation
+  // Show loading animation before search is preformed
   const resultDiv = document.getElementById("booking-result");
   resultDiv.innerHTML =
     '<div class="loading-spinner">Processing booking...</div>';
@@ -98,10 +98,6 @@ function makeBooking() {
             </button>
           </div>
         `;
-
-        // Clear form
-        document.getElementById("booking-form").reset();
-        document.getElementById("booking-resourceID").value = "";
       } else {
         const error = xmlDoc.getElementsByTagName("error")[0];
         if (error) {
