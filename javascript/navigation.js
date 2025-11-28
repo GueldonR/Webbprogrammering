@@ -32,8 +32,10 @@ function showpage(pageid) {
     targetPage.style.display = "block";
 
     // Update page-specific content
-    if (pageid === "pageMyPage" && typeof updateMyPageWelcome === "function") {
-      updateMyPageWelcome();
+    if (pageid === "pageMyPage" && typeof updateMyPageData === "function") {
+      setTimeout(function () {
+        updateMyPageData();
+      }, 50);
     }
   }
 }

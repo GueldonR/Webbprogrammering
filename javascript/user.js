@@ -97,26 +97,32 @@ function ResultCustomers(returnedData) {
       // Retrieve customer information
       var customer = resultset.childNodes.item(i);
 
-      // Store customer data in localStorage only
-      const userData = {
-        id: customer.attributes["id"].value,
-        firstname: customer.attributes["firstname"].value,
-        lastname: customer.attributes["lastname"].value,
-        address: customer.attributes["address"].value,
-        email: customer.attributes["email"].value,
-        lastvisit: customer.attributes["lastvisit"].value,
-      };
-
-      // Save to localStorage with timestamp
-      saveUserToLocalStorage(userData);
+      // Save each field explicitly to localStorage
+      localStorage.setItem("user_id", customer.attributes["id"].value);
+      localStorage.setItem(
+        "user_firstname",
+        customer.attributes["firstname"].value
+      );
+      localStorage.setItem(
+        "user_lastname",
+        customer.attributes["lastname"].value
+      );
+      localStorage.setItem(
+        "user_address",
+        customer.attributes["address"].value
+      );
+      localStorage.setItem("user_email", customer.attributes["email"].value);
+      localStorage.setItem(
+        "user_lastvisit",
+        customer.attributes["lastvisit"].value
+      );
+      localStorage.setItem("loginTime", new Date().toISOString());
 
       // Update login display
       var div = document.getElementById("CustomerOutputDiv");
-      div.innerHTML =
-        "Login successful! Welcome " +
-        userData.firstname +
-        " " +
-        userData.lastname;
+      const firstname = localStorage.getItem("user_firstname");
+      const lastname = localStorage.getItem("user_lastname");
+      div.innerHTML = "Login successful! Welcome " + firstname + " " + lastname;
 
       // Update navigation bar with user name
       updateNavigationForLoggedInUser();
@@ -130,10 +136,10 @@ function ResultCustomers(returnedData) {
 function updateNavigationForLoggedInUser() {
   const loginButton = document.querySelector(".nav-login-button");
   const logoutButton = document.querySelector(".nav-logout-button");
-  const currentUser = getCurrentUser();
+  const firstname = localStorage.getItem("user_firstname");
 
-  if (loginButton && currentUser) {
-    loginButton.textContent = "Hi, " + currentUser.firstname;
+  if (loginButton && firstname) {
+    loginButton.textContent = "Hi, " + firstname;
     loginButton.onclick = function () {
       showpage("pageMyPage");
     };
@@ -145,27 +151,13 @@ function updateNavigationForLoggedInUser() {
 }
 
 function updateMyPageWelcome() {
-  const currentUser = getCurrentUser();
-  if (currentUser) {
+  const firstname = localStorage.getItem("user_firstname");
+  if (firstname) {
     const myPageDiv = document.getElementById("pageMyPage");
     if (myPageDiv) {
-      // Update the welcome message in My Page
       const welcomeSection = myPageDiv.querySelector(".welcome-section h2");
       if (welcomeSection) {
-        welcomeSection.textContent =
-          "Welcome back, " + currentUser.firstname + "!";
-      }
-
-      // Update user info display
-      const userInfoDiv = document.getElementById("user-info-display");
-      if (userInfoDiv) {
-        userInfoDiv.innerHTML = `
-          <p><strong>Name:</strong> ${currentUser.firstname} ${currentUser.lastname}</p>
-          <p><strong>Email:</strong> ${currentUser.email}</p>
-          <p><strong>Address:</strong> ${currentUser.address}</p>
-          <p><strong>Customer ID:</strong> ${currentUser.id}</p>
-          <p><strong>Last Visit:</strong> ${currentUser.lastvisit}</p>
-        `;
+        welcomeSection.textContent = "Welcome back, " + firstname + "!";
       }
     }
   }
@@ -206,12 +198,7 @@ function getCurrentUser() {
 }
 
 function clearUserFromLocalStorage() {
-  try {
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("loginTime");
-  } catch (error) {
-    console.error("Failed to clear user from localStorage:", error);
-  }
+  localStorage.clear();
 }
 
 function logout() {
@@ -246,12 +233,23 @@ function resetNavigationForLoggedOutUser() {
 // Initialize app state on page load
 document.addEventListener("DOMContentLoaded", function () {
   // Check if user is already logged in from previous session
-  const savedUser = getCurrentUser();
+  const userId = localStorage.getItem("user_id");
+  const loginTime = localStorage.getItem("loginTime");
 
-  if (savedUser) {
-    // User is logged in, update UI
-    updateNavigationForLoggedInUser();
-    updateMyPageWelcome();
+  if (userId && loginTime) {
+    // Check if session is still valid (24 hours)
+    const loginDate = new Date(loginTime);
+    const now = new Date();
+    const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
+
+    if (hoursDiff < 24) {
+      // User is logged in, update UI
+      updateNavigationForLoggedInUser();
+    } else {
+      // Session expired, clear storage
+      clearUserFromLocalStorage();
+      resetNavigationForLoggedOutUser();
+    }
   } else {
     // No saved user, show logged out state
     resetNavigationForLoggedOutUser();

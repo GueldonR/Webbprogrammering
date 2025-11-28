@@ -146,6 +146,63 @@ main {
   padding: 0;
 }
 
+/* My Page Styles */
+.mypage-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mypage-container h2 {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.mypage-container > p {
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+}
+
+.mypage-info-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.mypage-info-section h3 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+.mypage-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.mypage-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mypage-info-item label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mypage-info-item span {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+}
+
 .hero-section {
   text-align: center;
   padding: 3rem 0;
