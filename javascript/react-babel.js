@@ -27,24 +27,64 @@ class ProductList extends React.Component {
 // Implementera sortering i sökningssidan
 // implementera error hantering på login och registrering
 
-async function getData(customerID) {
+async function getData() {
   // lägg till urlen för att hämta bookings
-  const Type = TravelDoctor;
-  const response = await fetch("../API/booking/getcustomerbookings_JSON.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ customerID: customerID, type: Type }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
+  const Type = localStorage.getItem("travel_type") || "TravelDoctor";
+  const custID = localStorage.getItem("user_id");
 
-      ReactDOM.render(
-        <ProductList codes={data} />,
-        // peka på ett div där du vill skriva ut datan
-        document.getElementById("react-data-dump")
-      );
-    });
+  if (!custID) {
+    console.error("No customer ID found");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "../API/booking/getcustomerbookings_JSON.php",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ customerID: custID, type: Type }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Bookings loaded:", data);
+
+    ReactDOM.render(
+      <ProductList codes={data} />,
+      // peka på ett div där du vill skriva ut datan
+      document.getElementById("react-data-dump")
+    );
+  } catch (error) {
+    console.error("Error loading bookings:", error);
+    ReactDOM.render(
+      <div style={{ color: "red" }}>
+        Error loading bookings: {error.message}
+      </div>,
+      document.getElementById("react-data-dump")
+    );
+  }
 }
 
-getData(customerID);
+// Listen for loadCustData event from login button
+// CANT DO THIS ITS NOT IN MEM YET
+document.addEventListener("loadCustData", function () {
+  const custID = localStorage.getItem("user_id");
+  if (custID) {
+    getData();
+  } else {
+    console.warn("Customer ID not available yet");
+  }
+});
+
+// Dispatch event when login button is clicked
+document
+  .getElementById("search-customer-form")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.dispatchEvent(new Event("loadCustData"));
+  });
