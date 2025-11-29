@@ -1,11 +1,4 @@
 document
-  .getElementById("make-customer-form")
-  .addEventListener("submit", function (e) {
-    e.preventDefault(); // stop page reload
-    createCustomer(); // call your function
-  });
-
-document
   .getElementById("search-customer-form")
   .addEventListener("submit", function (e) {
     e.preventDefault(); // stop page reload
@@ -18,22 +11,37 @@ function ResultBookingCustomer(returnedData) {
   // Iterate over all nodes in root node (i.e. the 'created' element in root which has an attribute called status)
   for (i = 0; i < returnedData.childNodes.length; i++) {
     if (returnedData.childNodes.item(i).nodeName == "created") {
-      alert(returnedData.childNodes.item(i).attributes["status"].value);
+      console.log(
+        "Success:" + returnedData.childNodes.item(i).attributes["status"].value
+      );
+      alert("Successfully registered!");
+      const registerForm = document.getElementById("make-customer-form");
+      if (registerForm) registerForm.reset();
+      showpage("pageHome");
     }
   }
 }
 
 function createCustomer() {
+  // Get the values from the form
+  const firstName = document.getElementById("firstName");
+  const lastName = document.getElementById("lastName");
+  const email = document.getElementById("email");
+  const address = document.getElementById("address");
+
+  // Create unique id
+  const rawLongID = Math.floor(Math.random() * Date.now());
+  const shortID = rawLongID.toString().substring(0, 4);
+
   var input = {
-    ID: Math.floor(Math.random() * 100),
-    firstname: document.getElementById("firstName").value,
-    lastname: document.getElementById("lastName").value,
-    email: document.getElementById("email").value,
-    address: document.getElementById("address").value,
+    ID: shortID,
+    firstname: firstName ? firstName.value.trim() : "",
+    lastname: lastName ? lastName.value.trim() : "",
+    email: email ? email.value.trim() : "",
+    address: address ? address.value.trim() : "",
   };
 
-  console.log(input);
-
+  // Send the request to the server
   fetch("../API/booking/makecustomer_XML.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

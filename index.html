@@ -368,7 +368,7 @@
               />
             </div>
             <div class="form-row">
-              <label for="phone">Phone</label>
+              <label for="phone (optional)">Phone</label>
               <input
                 type="tel"
                 id="phone"
@@ -377,14 +377,45 @@
               />
             </div>
             <div class="form-row">
+              <label for="postalCode">Postal Code (optional)</label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder="12345"
+              />
+            </div>
+            <div class="form-row">
+              <label for="country">Country</label>
+              <select id="country" name="country">
+                <option value="" selected>Select a country</option>
+                <option value="SE">Sweden</option>
+                <option value="NO">Norway</option>
+                <option value="DK">Denmark</option>
+                <option value="FI">Finland</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-row">
               <label for="address">Address</label>
               <textarea
                 id="address"
                 name="address"
                 rows="3"
-                placeholder="Street, postal code, city"
+                placeholder="Street-Street number"
               ></textarea>
             </div>
+            <div class="form-row">
+              <label for="terms-of-service"
+                >Terms of service
+                <input
+                  type="checkbox"
+                  id="terms-of-service"
+                  name="terms"
+                  style="margin: 0.5em"
+              /></label>
+            </div>
+            <div id="load-div"></div>
             <button type="submit" class="primary-action">
               Register account
             </button>

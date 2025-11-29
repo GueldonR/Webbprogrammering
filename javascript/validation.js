@@ -1,191 +1,203 @@
-// Validation functions with multiple HTML events
-
-// Email validation regex (non-trivial)
+// Regex registry
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-// Phone validation regex (non-trivial - Swedish format)
 const phoneRegex = /^(\+46|0)[1-9]\d{6,9}$/;
+const numberRegex = /^[0-9]$/;
+const postalCodeRegex = /^\d{5}$/;
 
-// Error messages container
-let errorMessages = {};
+// event listeners
+// intit of form validation
+document.addEventListener("DOMContentLoaded", setupRegistrationFormValidation);
 
-// Initialize validation on page load
-document.addEventListener("DOMContentLoaded", function () {
-  setupValidation();
-});
+// initializes live-form validation
+function setupRegistrationFormValidation() {
+  const form = document.getElementById("make-customer-form");
+  if (!form) return;
 
-function setupValidation() {
-  const registrationForm = document.getElementById("make-customer-form");
-  if (!registrationForm) return;
-
-  // Event 1: Input event - real-time validation
+  // Event driven validation
   const emailInput = document.getElementById("email");
   if (emailInput) {
-    emailInput.addEventListener("input", function (e) {
-      validateEmail(e.target);
-    });
+    emailInput.addEventListener("input", (e) => validateEmailField(e.target));
   }
 
-  // Event 2: Blur event - validate when leaving field
   const phoneInput = document.getElementById("phone");
   if (phoneInput) {
-    phoneInput.addEventListener("blur", function (e) {
-      validatePhone(e.target);
-    });
+    phoneInput.addEventListener("blur", (e) => validatePhoneField(e.target));
   }
 
-  // Event 3: Keypress event - prevent invalid characters
-  const firstNameInput = document.getElementById("firstName");
-  if (firstNameInput) {
-    firstNameInput.addEventListener("keypress", function (e) {
-      // Allow only letters, spaces, and hyphens
-      const char = String.fromCharCode(e.which);
-      if (!/^[a-zA-Z\s-]$/.test(char)) {
-        e.preventDefault();
-        showFieldError(e.target, "Only letters, spaces, and hyphens allowed");
+  const postalCodeInput = document.getElementById("postalCode");
+  if (postalCodeInput) {
+    postalCodeInput.addEventListener("keypress", (e) => {
+      if (e.key.match(numberRegex) != null) {
+        clearValidationError(postalCodeInput);
       } else {
-        clearFieldError(e.target);
+        e.preventDefault();
+        displayValidationError(postalCodeInput, "Only numbers allowed");
       }
     });
   }
 
-  const lastNameInput = document.getElementById("lastName");
-  if (lastNameInput) {
-    lastNameInput.addEventListener("keypress", function (e) {
-      const char = String.fromCharCode(e.which);
-      if (!/^[a-zA-Z\s-]$/.test(char)) {
-        e.preventDefault();
-        showFieldError(e.target, "Only letters, spaces, and hyphens allowed");
+  const countrySelect = document.getElementById("country");
+  if (countrySelect) {
+    countrySelect.addEventListener("change", (e) => {
+      if (e.target.value == "") {
+        displayValidationError(countrySelect, "Please select a country");
       } else {
-        clearFieldError(e.target);
+        clearValidationError(countrySelect);
       }
     });
   }
 
-  // Event 4: Focus event - clear errors when focusing
-  const inputs = registrationForm.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    input.addEventListener("focus", function (e) {
-      clearFieldError(e.target);
+  const termsCheckbox = document.getElementById("terms-of-service");
+  if (termsCheckbox) {
+    termsCheckbox.addEventListener("click", (e) => {
+      if (!e.target.checked) {
+        displayValidationError(termsCheckbox, "You must accept the terms");
+      } else {
+        clearValidationError(termsCheckbox);
+      }
     });
+  }
+
+  // remove error message when field is in focus
+  form.querySelectorAll("input, textarea, select").forEach((input) => {
+    input.addEventListener("focus", (e) => clearValidationError(e.target));
   });
 
-  // Form submit validation
-  registrationForm.addEventListener("submit", function (e) {
+  // validates the registration before submitting
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      // If validation passes, call the original createCustomer function
+    //creates customer if(func) returns true
+    if (validateRegistrationForm()) {
       createCustomer();
     }
   });
 }
 
-function validateForm() {
-  let isValid = true;
-  errorMessages = {};
-
-  // Validate first name
+function validateRegistrationForm() {
   const firstName = document.getElementById("firstName");
-  if (!firstName || !firstName.value.trim()) {
-    showFieldError(firstName, "First name is required");
-    isValid = false;
-  } else if (firstName.value.trim().length < 2) {
-    showFieldError(firstName, "First name must be at least 2 characters");
-    isValid = false;
-  }
-
-  // Validate last name
   const lastName = document.getElementById("lastName");
-  if (!lastName || !lastName.value.trim()) {
-    showFieldError(lastName, "Last name is required");
-    isValid = false;
-  } else if (lastName.value.trim().length < 2) {
-    showFieldError(lastName, "Last name must be at least 2 characters");
-    isValid = false;
-  }
-
-  // Validate email
   const email = document.getElementById("email");
-  if (!email || !email.value.trim()) {
-    showFieldError(email, "Email is required");
-    isValid = false;
-  } else if (!validateEmail(email)) {
-    isValid = false;
-  }
-
-  // Validate phone
   const phone = document.getElementById("phone");
-  if (phone && phone.value.trim() && !validatePhone(phone)) {
+  const postalCode = document.getElementById("postalCode");
+  const country = document.getElementById("country");
+  const address = document.getElementById("address");
+  const termsCheckbox = document.getElementById("terms-of-service");
+
+  // bool controls from send outcome
+  // if it goes through checks and returns true its a valid customer
+  let isValid = true;
+
+  if (firstName?.value.trim().length < 2) {
+    displayValidationError(
+      firstName,
+      "We dont accept names less than 2 characters"
+    );
     isValid = false;
   }
 
-  // Validate address
-  const address = document.getElementById("address");
-  if (!address || !address.value.trim()) {
-    showFieldError(address, "Address is required");
+  if (lastName?.value.trim().length < 2) {
+    displayValidationError(
+      lastName,
+      "We dont accept names less than 2 characters"
+    );
+    isValid = false;
+  }
+
+  if (!validateEmailField(email)) {
+    isValid = false;
+  }
+
+  if (!validatePhoneField(phone)) {
+    isValid = false;
+  }
+
+  if (postalCode?.value) {
+    const postalValue = postalCode.value.toString();
+    if (
+      postalValue.match(postalCodeRegex) == null ||
+      postalValue < 10000 ||
+      postalValue > 99999
+    ) {
+      displayValidationError(
+        postalCode,
+        "Postal code must be 5 digits (10000-99999)"
+      );
+      isValid = false;
+    }
+  }
+
+  if (!country?.value) {
+    displayValidationError(country, "Please select a country");
+    isValid = false;
+  }
+
+  if (!address?.value.trim()) {
+    displayValidationError(address, "Address is required");
     isValid = false;
   } else if (address.value.trim().length < 5) {
-    showFieldError(address, "Address must be at least 5 characters");
+    displayValidationError(address, "Address must be at least 5 characters");
+    isValid = false;
+  }
+
+  if (!termsCheckbox?.checked) {
+    displayValidationError(
+      termsCheckbox,
+      "You must accept the terms of service"
+    );
     isValid = false;
   }
 
   return isValid;
 }
 
-function validateEmail(input) {
+function validateEmailField(input) {
   if (!input) return false;
 
   const value = input.value.trim();
-
   if (!value) {
-    showFieldError(input, "Email is required");
+    displayValidationError(input, "Email is required");
     return false;
   }
 
-  if (!value.includes("@")) {
-    showFieldError(input, "Email must contain @ symbol");
+  // Match is null if there is no match
+  if (value.match(emailRegex) != null) {
+    clearValidationError(input);
+    return true;
+  } else {
+    displayValidationError(
+      input,
+      "Invalid email format. Example: name@example.com"
+    );
     return false;
   }
-
-  if (!emailRegex.test(value)) {
-    showFieldError(input, "Invalid email format. Example: name@example.com");
-    return false;
-  }
-
-  clearFieldError(input);
-  return true;
 }
 
-function validatePhone(input) {
-  if (!input || !input.value.trim()) {
-    return true; // Phone is optional
-  }
-
-  const value = input.value.trim().replace(/\s/g, ""); // Remove spaces
-
-  if (!phoneRegex.test(value)) {
-    showFieldError(
+function validatePhoneField(input) {
+  if (!input?.value.trim()) return true; // not needed
+  const value = input.value.trim().replace(/\s/g, ""); // reonove all WS
+  // Match is null if there is no match
+  if (value.match(phoneRegex) != null) {
+    clearValidationError(input);
+    return true;
+  } else {
+    displayValidationError(
       input,
       "Invalid phone format. Use Swedish format: +46 70 123 45 67 or 070-123 45 67"
     );
     return false;
   }
-
-  clearFieldError(input);
-  return true;
 }
 
-function showFieldError(input, message) {
+function displayValidationError(input, message) {
   if (!input) return;
 
-  // Remove existing error
-  clearFieldError(input);
+  // clear any previous errors
+  clearValidationError(input);
 
-  // Add error class
+  // prepare element
   input.style.borderColor = "#ff4f9a";
   input.style.boxShadow = "0 0 0 3px rgba(255, 79, 154, 0.2)";
 
-  // Create error message element
   const errorDiv = document.createElement("div");
   errorDiv.className = "error-message";
   errorDiv.style.color = "#ff4f9a";
@@ -193,24 +205,16 @@ function showFieldError(input, message) {
   errorDiv.style.marginTop = "0.25rem";
   errorDiv.textContent = message;
 
-  // Insert after input
+  // attach element to the input div
   input.parentNode.appendChild(errorDiv);
-
-  // Store error message
-  errorMessages[input.id] = message;
 }
 
-function clearFieldError(input) {
+function clearValidationError(input) {
   if (!input) return;
 
   input.style.borderColor = "";
   input.style.boxShadow = "";
 
-  // Remove error message
   const errorDiv = input.parentNode.querySelector(".error-message");
-  if (errorDiv) {
-    errorDiv.remove();
-  }
-
-  delete errorMessages[input.id];
+  if (errorDiv) errorDiv.remove();
 }
