@@ -86,11 +86,14 @@ function ResultCustomers(returnedData) {
   fixChars(returnedData);
 
   var resultset = returnedData.childNodes[0];
+  // flag for empty response
+  var found = false;
 
   // Iterate over all nodes in root node (i.e. customers)
   for (i = 0; i < resultset.childNodes.length; i++) {
     // Iterate over all child nodes of that node that are customer nodes
     if (resultset.childNodes.item(i).nodeName == "customer") {
+      found = true;
       // Retrieve customer information
       var customer = resultset.childNodes.item(i);
 
@@ -122,6 +125,7 @@ function ResultCustomers(returnedData) {
       showpage("pageMyPage");
     }
   }
+  if (!found) throw new Error("Wrong Identifier");
 }
 
 function updateNavigationForLoggedInUser() {
