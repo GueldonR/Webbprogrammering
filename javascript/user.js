@@ -151,8 +151,10 @@ function clearUserFromLocalStorage() {
 }
 
 function logout() {
+  // clears all session/form info
   clearUserFromLocalStorage();
   resetNavigationForLoggedOutUser();
+  formResetUtil();
   showpage("pageHome");
   alert("You have been logged out successfully.");
 }

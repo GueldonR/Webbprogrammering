@@ -33,58 +33,21 @@ function showpage(pageid) {
 
     // Update page-specific content
     if (pageid === "pageMyPage" && typeof updateMyPageData === "function") {
-      setTimeout(function () {
-        updateMyPageData();
-      }, 50);
+      updateMyPageData();
+    }
+
+    // Load saved search when navigating to flights page
+    if (
+      pageid === "pageFlights" &&
+      typeof loadSearchFromLocalStorage === "function"
+    ) {
+      loadSearchFromLocalStorage();
     }
 
     // Reset forms when navigating to their pages
-    resetFormForPage(pageid);
-  }
-}
-
-// function to reset all forms between pages
-function resetFormForPage(pageid) {
-  const pageConfig = {
-    pageFlights: {
-      form: "flight-search-form",
-      clear: ["search-results"],
-    },
-    pageBooking: {
-      form: "booking-form",
-      clear: ["booking-result"],
-      extra: () => {
-        const field = document.getElementById("booking-resourceID");
-        if (field) field.value = "";
-      },
-    },
-    pageLogin: { form: "search-customer-form" },
-    pageRegister: {
-      form: "make-customer-form",
-      extra: (form) => {
-        form.querySelectorAll(".error-message").forEach((e) => e.remove());
-        form.querySelectorAll("input, textarea").forEach((input) => {
-          input.style.borderColor = "";
-          input.style.boxShadow = "";
-        });
-      },
-    },
-  };
-
-  const config = pageConfig[pageid];
-  if (!config) return;
-
-  const form = document.getElementById(config.form);
-  if (form) {
-    form.reset();
-    if (config.extra) config.extra(form);
-  }
-
-  if (config.clear) {
-    config.clear.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = "";
-    });
+    if (typeof resetFormForPage === "function") {
+      resetFormForPage(pageid);
+    }
   }
 }
 

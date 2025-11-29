@@ -1,6 +1,4 @@
 // Search functionality with API integration
-// Based on course material implementation
-// Note: apptype is defined globally in navigation.js
 // Note: fixChars function is already defined in user.js and available globally
 
 // Initialize search on page load
@@ -20,6 +18,7 @@ function setupSearch() {
 }
 
 function saveSearchToLocalStorage() {
+  // hämta datan från senaste sökningen
   const searchData = {
     resIDS: document.getElementById("resIDS")?.value || "",
     resNameS: document.getElementById("resNameS")?.value || "",
