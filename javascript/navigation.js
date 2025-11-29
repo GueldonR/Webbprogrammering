@@ -36,6 +36,14 @@ function showpage(pageid) {
       updateMyPageData();
     }
 
+    // Clear booking page when navigating via back button (popstate)
+    if (pageid === "pageBooking" && localStorage.getItem("fromPopstate")) {
+      const availabilityDiv = document.getElementById("availability-results");
+      const bookingResultDiv = document.getElementById("booking-result");
+      if (availabilityDiv) availabilityDiv.innerHTML = "";
+      if (bookingResultDiv) bookingResultDiv.innerHTML = "";
+    }
+
     // Load saved search when navigating to flights page
     if (
       pageid === "pageFlights" &&

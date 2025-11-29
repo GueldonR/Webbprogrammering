@@ -1,12 +1,12 @@
 // My Page - Display user data from localStorage
 
 function updateMyPageData() {
-  const userId = localStorage.getItem("user_id");
-  const firstname = localStorage.getItem("user_firstname");
-  const lastname = localStorage.getItem("user_lastname");
-  const email = localStorage.getItem("user_email");
-  const address = localStorage.getItem("user_address");
-  const lastvisit = localStorage.getItem("user_lastvisit");
+  const userId = decodeHTMLEntities(localStorage.getItem("user_id"));
+  const firstname = decodeHTMLEntities(localStorage.getItem("user_firstname"));
+  const lastname = decodeHTMLEntities(localStorage.getItem("user_lastname"));
+  const email = decodeHTMLEntities(localStorage.getItem("user_email"));
+  const address = decodeHTMLEntities(localStorage.getItem("user_address"));
+  const lastvisit = decodeHTMLEntities(localStorage.getItem("user_lastvisit"));
 
   if (userId) {
     document.getElementById("mypage-welcome-title").textContent =
@@ -24,4 +24,11 @@ function updateMyPageData() {
   } else {
     showpage("pageLogin");
   }
+}
+
+// quick fix to decode fields correctly
+function decodeHTMLEntities(text) {
+  var textArea = document.createElement("textarea");
+  textArea.innerHTML = text;
+  return textArea.value;
 }
