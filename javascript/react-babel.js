@@ -22,7 +22,7 @@ function BookingRow(props) {
       <td style={cellStyle}>{props.date || "-"}</td>
       <td style={cellStyle}>{props.dateto || "-"}</td>
       <td style={cellStyle}>{props.cost || "-"}</td>
-      <td style={cellStyle}>{props.status || "-"}</td>
+      <td style={cellStyle}>{props.position || "-"}</td>
     </tr>
   );
 }
@@ -42,7 +42,7 @@ class ProductList extends React.Component {
       "Date From",
       "Date To",
       "Cost",
-      "Status",
+      "Seat number", // corresponds to position
     ];
 
     return (
@@ -72,7 +72,7 @@ class ProductList extends React.Component {
               date={booking.date}
               dateto={booking.dateto}
               cost={booking.cost}
-              status={booking.status}
+              position={booking.position}
             />
           ))}
         </tbody>

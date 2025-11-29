@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel-Doctor</title>
     <link rel="stylesheet" href="main.css" />
+    <script>
+      // Global variable
+      var apptype = "TravelDoctor";
+    </script>
   </head>
 
   <body>
@@ -36,12 +40,6 @@
               onclick="showpage('pageFlights')"
               class="hamburgerItem"
               >Flights</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageBooking')"
-              class="hamburgerItem"
-              >Book</a
             >
             <a
               href="javascript:void(0)"
@@ -203,7 +201,7 @@
               />
             </div>
             <button type="submit" class="primary-action">
-              Search Resources
+              Search Flight-Routes
             </button>
           </form>
           <div id="search-results" style="margin-top: 2rem"></div>
@@ -212,50 +210,7 @@
         <div id="pageBooking" class="pages">
           <h2>Make a Booking</h2>
           <p>Select a flight from search results to book</p>
-          <form id="booking-form" class="registration-form">
-            <div class="form-row">
-              <label for="booking-resourceID">Resource ID</label>
-              <input
-                type="text"
-                id="booking-resourceID"
-                name="resourceID"
-                required
-                placeholder="FL001 or FL002 etc"
-              />
-            </div>
-            <div class="form-row">
-              <label for="booking-date">Date</label>
-              <input
-                type="datetime-local"
-                id="booking-date"
-                name="date"
-                required
-              />
-            </div>
-            <div class="form-row">
-              <label for="booking-dateto">Date To</label>
-              <input type="datetime-local" id="booking-dateto" name="dateto" />
-            </div>
-            <div class="form-row">
-              <label for="booking-position">Position</label>
-              <input
-                type="number"
-                id="booking-position"
-                name="position"
-                min="1"
-                value="1"
-                required
-              />
-            </div>
-            <div class="form-row">
-              <label for="booking-status">Status</label>
-              <select id="booking-status" name="status" required>
-                <option value="1">Preliminary (1)</option>
-                <option value="2">Booked (2)</option>
-              </select>
-            </div>
-            <button type="submit" class="primary-action">Make Booking</button>
-          </form>
+          <div id="availability-results" style="margin-bottom: 2rem"></div>
           <div id="booking-result" style="margin-top: 1rem"></div>
         </div>
         <div id="pageContact" class="pages">

@@ -136,14 +136,10 @@ function displaySearchResults(xmlDoc) {
 
   for (let i = 0; i < resources.length; i++) {
     const r = resources[i];
+    const resourceID = r.getAttribute("id");
+    output += "<tr style='border-bottom: 1px solid rgba(255,255,255,0.08);'>";
     output +=
-      "<tr style='border-bottom: 1px solid rgba(255,255,255,0.08);' onclick='selectForBooking(\"" +
-      r.getAttribute("id") +
-      "\")'>";
-    output +=
-      "<td style='padding: 10px; color: #f5f7ff;'>" +
-      r.getAttribute("id") +
-      "</td>";
+      "<td style='padding: 10px; color: #f5f7ff;'>" + resourceID + "</td>";
     output +=
       "<td style='padding: 10px; color: #f5f7ff;'>" +
       r.getAttribute("name") +
@@ -174,7 +170,9 @@ function displaySearchResults(xmlDoc) {
       (r.getAttribute("auxdata") || "-") +
       "</td>";
     output +=
-      "<td style='padding: 10px;'><button class='book-btn' style='background: linear-gradient(120deg, #ff4f9a, #ffb347); border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer;'>Book</button></td>";
+      "<td style='padding: 10px;'><button class='book-btn' onclick='selectForBooking(\"" +
+      resourceID +
+      "\"); event.stopPropagation();' style='background: linear-gradient(120deg, #ff4f9a, #ffb347); border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer;'>View Availability</button></td>";
     output += "</tr>";
   }
   output += "</tbody></table>";
@@ -183,9 +181,7 @@ function displaySearchResults(xmlDoc) {
 
 function selectForBooking(resourceID) {
   showpage("pageBooking");
-  setTimeout(() => {
-    const field = document.getElementById("booking-resourceID");
-    if (field) field.value = resourceID;
-    document.getElementById("booking-position").value = 1;
-  }, 100);
+  if (typeof fetchAvailability === "function") {
+    fetchAvailability(resourceID);
+  }
 }

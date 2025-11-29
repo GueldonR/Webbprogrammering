@@ -51,14 +51,9 @@ function showpage(pageid) {
   }
 }
 
-// For students, User name of student to differentiate between different applications on the server
-var apptype = "TravelDoctor";
-
-//------------------------------------------------------------------------
-// get Bookings
-//------------------------------------------------------------------------
-// Gets bookings using JSON - key was added to support React Element Keys
-//------------------------------------------------------------------------
+// Load customer bookings on Mypage,
+// called in html and depends on react-babel
+// was placed here since because of js-file dependencies, couldnt get a nice solution
 function getData() {
   var input = {
     customerID: localStorage.getItem("user_id"),

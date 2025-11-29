@@ -29,7 +29,7 @@ function createCustomer() {
   const email = document.getElementById("email");
   const address = document.getElementById("address");
 
-  // Create unique id
+  // Create unique id that us a okay length
   const rawLongID = Math.floor(Math.random() * Date.now());
   const shortID = rawLongID.toString().substring(0, 4);
 

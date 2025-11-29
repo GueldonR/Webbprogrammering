@@ -1,2 +1,21 @@
-#här i user.js måste jag ändra showCustomer() så att den displayar ett felmeddelande vid
-# varje mottagning 
+# måste refaktorera om logiken för att göra bokningar, dessa görs nu med hjälp av resurs i sökningen, det ska vara get resources och det som ska listas är bokningar 
+# med en viss status värde 
+# man kan endast boka en resurs som har available bokningar
+
+    Inkluderar:  bookingjs, searchjs och html-form-input
+
+
+#booking/getresources XML
+Används för att söka efter resurser.
+
+#booking/getavailability search XML
+Används när användaren valt en resurs och du vill se lediga datum och remaining.
+
+#booking/makebooking XML
+Används när användaren valt ett datum och du ska skapa bokningen.
+
+#booking/getcustomerbookings XML
+Används när du vill visa kundens historik i React.
+
+#booking/deletebooking XML
+Används om kunden ska kunna avboka.
