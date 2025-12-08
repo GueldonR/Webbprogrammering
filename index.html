@@ -1,417 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel-Doctor</title>
-    <link rel="stylesheet" href="main.css" />
-    <script>
-      // Global variable
-      var apptype = "TravelDoctor";
-    </script>
-  </head>
 
-  <body>
-    <!-- react delen  -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script
-      src="https://unpkg.com/react@16/umd/react.development.js"
-      crossorigin
-    ></script>
-    <script
-      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
-      crossorigin
-    ></script>
-    <header>
-      <nav id="navigation-bar">
-        <div id="navigation-bar-left">
-          <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-              >&times;</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageHome')"
-              class="hamburgerItem"
-              >Home</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageFlights')"
-              class="hamburgerItem"
-              >Flights</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageRegister')"
-              class="hamburgerItem"
-              >Register</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageGame')"
-              class="hamburgerItem"
-              >Play the Flight Game!</a
-            >
-            <a
-              href="javascript:void(0)"
-              onclick="showpage('pageContact')"
-              class="hamburgerItem"
-              >Contact us</a
-            >
-          </div>
-          <span class="VGvgVG" onclick="openNav()">
-            <button id="sidebar-button">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </span>
-          <a
-            href="javascript:void(0)"
-            onclick="showpage('pageHome')"
-            class="logo-link"
-          >
-            <img src="attachments/logo_1.png" alt="Logo" />
-          </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel-Doctor</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="game.css" />
+  <script>
+    // Global variable
+    var apptype = "TravelDoctor";
+  </script>
+</head>
+
+<body>
+  <!-- react delen  -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <header>
+    <nav id="navigation-bar">
+      <div id="navigation-bar-left">
+        <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <a href="javascript:void(0)" onclick="showpage('pageHome')" class="hamburgerItem">Home</a>
+          <a href="javascript:void(0)" onclick="showpage('pageFlights')" class="hamburgerItem">Flights</a>
+          <a href="javascript:void(0)" onclick="showpage('pageRegister')" class="hamburgerItem">Register</a>
+          <a href="javascript:void(0)" onclick="showpage('pageGame')" class="hamburgerItem">Play the Flight Game!</a>
+          <a href="javascript:void(0)" onclick="showpage('pageContact')" class="hamburgerItem">Contact us</a>
         </div>
-        <div id="navigation-bar-login">
-          <button
-            type="button"
-            class="nav-login-button"
-            onclick="showpage('pageLogin')"
-          >
-            Login
+        <span class="VGvgVG" onclick="openNav()">
+          <button id="sidebar-button">
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
-          <button
-            type="button"
-            class="nav-logout-button"
-            onclick="logout()"
-            style="display: none"
-          >
-            Logout
+        </span>
+        <a href="javascript:void(0)" onclick="showpage('pageHome')" class="logo-link">
+          <img src="attachments/logo_1.png" alt="Logo" />
+        </a>
+      </div>
+      <div id="navigation-bar-login">
+        <button type="button" class="nav-login-button" onclick="showpage('pageLogin')">
+          Login
+        </button>
+        <button type="button" class="nav-logout-button" onclick="logout()" style="display: none">
+          Logout
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div id="page-container">
+      <div id="pageHome" class="pages">
+        <div class="hero-section">
+          <h1 class="hero-title">Discover Your Next Adventure</h1>
+          <p class="hero-subtitle">
+            Find the perfect flight to your dream destination
+          </p>
+          <button class="cta-button" onclick="showpage('pageFlights')">
+            Search Flights
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
-      </nav>
-    </header>
 
-    <main>
-      <div id="page-container">
-        <div id="pageHome" class="pages">
-          <div class="hero-section">
-            <h1 class="hero-title">Discover Your Next Adventure</h1>
-            <p class="hero-subtitle">
-              Find the perfect flight to your dream destination
-            </p>
-            <button class="cta-button" onclick="showpage('pageFlights')">
-              Search Flights
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
+        <div class="features-section">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="attachments/flight_takeoff.svg" alt="flight" />
+            </div>
+            <h3>Best Prices</h3>
+            <p>Compare prices from multiple airlines</p>
           </div>
-
-          <div class="features-section">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <img src="attachments/flight_takeoff.svg" alt="flight" />
-              </div>
-              <h3>Best Prices</h3>
-              <p>Compare prices from multiple airlines</p>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="booking" />
             </div>
-            <div class="feature-card">
-              <div class="feature-icon">
-                <img
-                  src="attachments/hotel_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="booking"
-                />
-              </div>
-              <h3>Easy Booking</h3>
-              <p>Simple and secure booking process</p>
+            <h3>Easy Booking</h3>
+            <p>Simple and secure booking process</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="support" />
             </div>
-            <div class="feature-card">
-              <div class="feature-icon">
-                <img
-                  src="attachments/explore_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-                  alt="support"
-                />
-              </div>
-              <h3>24/7 Support</h3>
-              <p>We're here to help anytime</p>
-            </div>
+            <h3>24/7 Support</h3>
+            <p>We're here to help anytime</p>
           </div>
         </div>
+      </div>
 
-        <div id="pageFlights" class="pages">
-          <h1>Search Flight-Routes</h1>
-          <form id="flight-search-form" class="flight-search-form">
-            <div class="form-row">
-              <label for="resIDS">Resource ID</label>
-              <input
-                type="text"
-                id="resIDS"
-                name="resIDS"
-                placeholder="e.g. FL001"
-              />
-            </div>
-            <div class="form-row">
-              <label for="resNameS">Name</label>
-              <input
-                type="text"
-                id="resNameS"
-                name="resNameS"
-                placeholder="e.g. Nordic Express 101"
-              />
-            </div>
-            <div class="form-row">
-              <label for="resLocationS">Location</label>
-              <input
-                type="text"
-                id="resLocationS"
-                name="resLocationS"
-                placeholder="e.g. Stockholm-Copenhagen"
-              />
-            </div>
-            <div class="form-row">
-              <label for="resCompanyS">Company</label>
-              <input
-                type="text"
-                id="resCompanyS"
-                name="resCompanyS"
-                placeholder="e.g. Nordic Airways"
-              />
-            </div>
-            <div class="form-row">
-              <label for="resCategoryS">Category</label>
-              <input
-                type="text"
-                id="resCategoryS"
-                name="resCategoryS"
-                placeholder="e.g. Domestic"
-              />
-            </div>
-            <div class="form-row">
-              <label for="resFulltextS">Full Text Search</label>
-              <input
-                type="text"
-                id="resFulltextS"
-                name="resFulltextS"
-                placeholder="Search all fields at once"
-              />
-            </div>
-            <button type="submit" class="primary-action">
-              Search Flight-Routes
-            </button>
-          </form>
-          <div id="search-results" style="margin-top: 2rem"></div>
-        </div>
+      <div id="pageFlights" class="pages">
+        <h1>Search Flight-Routes</h1>
+        <form id="flight-search-form" class="flight-search-form">
+          <div class="form-row">
+            <label for="resIDS">Resource ID</label>
+            <input type="text" id="resIDS" name="resIDS" placeholder="e.g. FL001" />
+          </div>
+          <div class="form-row">
+            <label for="resNameS">Name</label>
+            <input type="text" id="resNameS" name="resNameS" placeholder="e.g. Nordic Express 101" />
+          </div>
+          <div class="form-row">
+            <label for="resLocationS">Location</label>
+            <input type="text" id="resLocationS" name="resLocationS" placeholder="e.g. Stockholm-Copenhagen" />
+          </div>
+          <div class="form-row">
+            <label for="resCompanyS">Company</label>
+            <input type="text" id="resCompanyS" name="resCompanyS" placeholder="e.g. Nordic Airways" />
+          </div>
+          <div class="form-row">
+            <label for="resCategoryS">Category</label>
+            <input type="text" id="resCategoryS" name="resCategoryS" placeholder="e.g. Domestic" />
+          </div>
+          <div class="form-row">
+            <label for="resFulltextS">Full Text Search</label>
+            <input type="text" id="resFulltextS" name="resFulltextS" placeholder="Search all fields at once" />
+          </div>
+          <button type="submit" class="primary-action">
+            Search Flight-Routes
+          </button>
+        </form>
+        <div id="search-results" style="margin-top: 2rem"></div>
+      </div>
 
-        <div id="pageBooking" class="pages">
-          <h2>Make a Booking</h2>
-          <p>Select a flight from search results to book</p>
-          <div id="availability-results" style="margin-bottom: 2rem"></div>
-          <div id="booking-result" style="margin-top: 1rem"></div>
-        </div>
-        <div id="pageContact" class="pages">
-          <h2>Contact us</h2>
-          <p>contact us page</p>
-        </div>
-        <div id="pageMyPage" class="pages">
-          <div class="mypage-container">
-            <h2 id="mypage-welcome-title">My Page</h2>
-            <p>View and manage your account information</p>
+      <div id="pageBooking" class="pages">
+        <h2>Make a Booking</h2>
+        <p>Select a flight from search results to book</p>
+        <div id="availability-results" style="margin-bottom: 2rem"></div>
+        <div id="booking-result" style="margin-top: 1rem"></div>
+      </div>
+      <div id="pageContact" class="pages">
+        <h2>Contact us</h2>
+        <p>contact us page</p>
+      </div>
+      <div id="pageMyPage" class="pages">
+        <div class="mypage-container">
+          <h2 id="mypage-welcome-title">My Page</h2>
+          <p>View and manage your account information</p>
 
-            <div class="mypage-info-section">
-              <h3>Account Information</h3>
-              <div class="mypage-info-grid">
-                <div class="mypage-info-item">
-                  <label>User ID:</label>
-                  <span id="mypage-user-id">-</span>
-                </div>
-                <div class="mypage-info-item">
-                  <label>First Name:</label>
-                  <span id="mypage-user-firstname">-</span>
-                </div>
-                <div class="mypage-info-item">
-                  <label>Last Name:</label>
-                  <span id="mypage-user-lastname">-</span>
-                </div>
-                <div class="mypage-info-item">
-                  <label>Email:</label>
-                  <span id="mypage-user-email">-</span>
-                </div>
-                <div class="mypage-info-item">
-                  <label>Address:</label>
-                  <span id="mypage-user-address">-</span>
-                </div>
-                <div class="mypage-info-item">
-                  <label>Last Visit:</label>
-                  <span id="mypage-user-lastvisit">-</span>
-                </div>
+          <div class="mypage-info-section">
+            <h3>Account Information</h3>
+            <div class="mypage-info-grid">
+              <div class="mypage-info-item">
+                <label>User ID:</label>
+                <span id="mypage-user-id">-</span>
+              </div>
+              <div class="mypage-info-item">
+                <label>First Name:</label>
+                <span id="mypage-user-firstname">-</span>
+              </div>
+              <div class="mypage-info-item">
+                <label>Last Name:</label>
+                <span id="mypage-user-lastname">-</span>
+              </div>
+              <div class="mypage-info-item">
+                <label>Email:</label>
+                <span id="mypage-user-email">-</span>
+              </div>
+              <div class="mypage-info-item">
+                <label>Address:</label>
+                <span id="mypage-user-address">-</span>
+              </div>
+              <div class="mypage-info-item">
+                <label>Last Visit:</label>
+                <span id="mypage-user-lastvisit">-</span>
               </div>
             </div>
-            <div class="mypage-info-section" style="margin-top: 1%">
-              <button
-                id="booking-history-btn"
-                class="cta-button"
-                style="width: 100%; height: 100%"
-                onclick="getData();"
-              >
-                Load your bookings
-              </button>
-              <section id="react-data-dump"></section>
-            </div>
+          </div>
+          <div class="mypage-info-section" style="margin-top: 1%">
+            <button id="booking-history-btn" class="cta-button" style="width: 100%; height: 100%" onclick="getData();">
+              Load your bookings
+            </button>
+            <section id="react-data-dump"></section>
           </div>
         </div>
-        <div id="pageLogin" class="pages">
-          <h2>Welcome back</h2>
-          <p>Log in to access saved trips, fare alerts, and synced bookings.</p>
-          <form id="search-customer-form" class="auth-form">
-            <div class="form-row remember-row">
-              <label>
-                <input type="text" name="rememberMe" id="custidentification" />
-                Användar-ID
-              </label>
-            </div>
-            <div class="form-row remember-row">
-              <label>
-                <input type="checkbox" name="rememberMe" />
-                Remember me
-              </label>
-              <a href="javascript:void(0)" class="link--ghost"
-                >Forgot password?</a
-              >
-            </div>
-            <button type="submit" class="primary-action" id="login-sumbit">
-              Log in
-            </button>
-          </form>
-        </div>
-        <div id="pageGame" class="pages">
-          <h2>Here is the game</h2>
-          <span id="menu">
-            <button id="playButton">Play Game</button>
-          </span>
-          <div id="canvasHolder">
-            <canvas
-              id="canvasid"
-              width="800"
-              height="400px"
-              style="
+      </div>
+      <div id="pageLogin" class="pages">
+        <h2>Welcome back</h2>
+        <p>Log in to access saved trips, fare alerts, and synced bookings.</p>
+        <form id="search-customer-form" class="auth-form">
+          <div class="form-row remember-row">
+            <label>
+              <input type="text" name="rememberMe" id="custidentification" />
+              Användar-ID
+            </label>
+          </div>
+          <div class="form-row remember-row">
+            <label>
+              <input type="checkbox" name="rememberMe" />
+              Remember me
+            </label>
+            <a href="javascript:void(0)" class="link--ghost">Forgot password?</a>
+          </div>
+          <button type="submit" class="primary-action" id="login-sumbit">
+            Log in
+          </button>
+        </form>
+      </div>
+      <div id="pageGame" class="pages">
+        <h2>Here is the game</h2>
+        <span id="menu">
+          <button id="playButton">Play Game</button>
+        </span>
+        <div id="canvasHolder">
+          <canvas id="canvasid" width="800" height="400px" style="
                 border: 1px solid rgb(0, 0, 0);
                 width: 1000;
                 height: 400;
                 image-rendering: pixelated;
-              "
-            ></canvas>
-          </div>
-        </div>
-        <div id="pageRegister" class="pages">
-          <h2>Customer Registration</h2>
-          <p>
-            Create your account so you can save travelers, track bookings, and
-            receive personalized deals.
-          </p>
-          <form id="make-customer-form" class="registration-form">
-            <div class="form-row">
-              <label for="firstName">First name</label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                placeholder="e.g. Anna"
-              />
-            </div>
-            <div class="form-row">
-              <label for="lastName">Last name</label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="e.g. Svensson"
-              />
-            </div>
-            <div class="form-row">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div class="form-row">
-              <label for="phone (optional)">Phone</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="+46 70 123 45 67"
-              />
-            </div>
-            <div class="form-row">
-              <label for="postalCode">Postal Code (optional)</label>
-              <input
-                type="text"
-                id="postalCode"
-                name="postalCode"
-                placeholder="12345"
-              />
-            </div>
-            <div class="form-row">
-              <label for="country">Country</label>
-              <select id="country" name="country">
-                <option value="" selected>Select a country</option>
-                <option value="SE">Sweden</option>
-                <option value="NO">Norway</option>
-                <option value="DK">Denmark</option>
-                <option value="FI">Finland</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label for="address">Address</label>
-              <textarea
-                id="address"
-                name="address"
-                rows="3"
-                placeholder="Street-Street number"
-              ></textarea>
-            </div>
-            <div class="form-row">
-              <label for="terms-of-service"
-                >Terms of service
-                <input
-                  type="checkbox"
-                  id="terms-of-service"
-                  name="terms"
-                  style="margin: 0.5em"
-              /></label>
-            </div>
-            <div id="load-div"></div>
-            <button type="submit" class="primary-action">
-              Register account
-            </button>
-          </form>
+              "></canvas>
         </div>
       </div>
-    </main>
-    <script src="javascript/game.js"></script>
-    <script type="text/babel" src="javascript/react-babel.js"></script>
-    <script src="javascript/form.js"></script>
-    <script src="javascript/navigation.js"></script>
-    <script src="javascript/app.js"></script>
-    <script src="javascript/mypage.js"></script>
-    <script src="javascript/user.js"></script>
-    <script src="javascript/validation.js"></script>
-    <script src="javascript/search.js"></script>
-    <script src="javascript/booking.js"></script>
-  </body>
+      <div id="pageRegister" class="pages">
+        <h2>Customer Registration</h2>
+        <p>
+          Create your account so you can save travelers, track bookings, and
+          receive personalized deals.
+        </p>
+        <form id="make-customer-form" class="registration-form">
+          <div class="form-row">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="e.g. Anna" />
+          </div>
+          <div class="form-row">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="e.g. Svensson" />
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" />
+          </div>
+          <div class="form-row">
+            <label for="phone (optional)">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="+46 70 123 45 67" />
+          </div>
+          <div class="form-row">
+            <label for="postalCode">Postal Code (optional)</label>
+            <input type="text" id="postalCode" name="postalCode" placeholder="12345" />
+          </div>
+          <div class="form-row">
+            <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="" selected>Select a country</option>
+              <option value="SE">Sweden</option>
+              <option value="NO">Norway</option>
+              <option value="DK">Denmark</option>
+              <option value="FI">Finland</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" placeholder="Street-Street number"></textarea>
+          </div>
+          <div class="form-row">
+            <label for="terms-of-service">Terms of service
+              <input type="checkbox" id="terms-of-service" name="terms" style="margin: 0.5em" /></label>
+          </div>
+          <div id="load-div"></div>
+          <button type="submit" class="primary-action">
+            Register account
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script src="javascript/game.js"></script>
+  <script type="text/babel" src="javascript/react-babel.js"></script>
+  <script src="javascript/form.js"></script>
+  <script src="javascript/navigation.js"></script>
+  <script src="javascript/app.js"></script>
+  <script src="javascript/mypage.js"></script>
+  <script src="javascript/user.js"></script>
+  <script src="javascript/validation.js"></script>
+  <script src="javascript/search.js"></script>
+  <script src="javascript/booking.js"></script>
+</body>
+
 </html>
