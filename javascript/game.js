@@ -25,10 +25,34 @@ window.addEventListener("load", function () {
       this.height = 91.3;
       this.x = 0;
       this.y = this.game.height - this.height;
-      this.image = player;
+      this.image = player; //  id selection of the sprite
       this.input = new inputHandler();
+      this.velocityY = 0;
+      this.gravity = 0.5;
+      this.jumpPower = -15;
+      this.groundY = this.game.height - this.height;
     }
-    update() {}
+    update() {
+      // Check if on ground
+      const onGround = this.y >= this.groundY;
+      
+      // Jump when space is pressed and on ground
+      if (this.input.keys.includes(" ") && onGround) {
+        this.velocityY = this.jumpPower;
+      }
+      
+      // Gravity
+      this.velocityY += this.gravity;
+      
+      // Update position
+      this.y += this.velocityY;
+      
+      // Stop falling when hitting ground
+      if (this.y >= this.groundY) {
+        this.y = this.groundY;
+        this.velocityY = 0;
+      }
+    }
     draw(context) {
       context.drawImage(
         this.image,
@@ -48,8 +72,9 @@ window.addEventListener("load", function () {
     constructor() {
       this.keys = [];
       window.addEventListener("keydown", (keyevent) => {
+      // Logs space bar press and release
         if (
-          (keyevent.key === "ArrowDown" || keyevent.key === "ArrowUp") &&
+          (keyevent.key === " ") &&
           this.keys.indexOf(keyevent.key) === -1
         ) {
           this.keys.push(keyevent.key);
@@ -57,7 +82,7 @@ window.addEventListener("load", function () {
         console.log(keyevent.key, this.keys);
       });
       window.addEventListener("keyup", (keyevent) => {
-        if (keyevent.key === "ArrowDown" || keyevent.key === "ArrowUp") {
+        if (keyevent.key === " ") {
           this.keys.splice(this.keys.indexOf(keyevent.key), 1);
         }
         console.log(keyevent.key, this.keys);
