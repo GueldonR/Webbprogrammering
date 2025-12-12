@@ -617,3 +617,7 @@ form {
 #search-results {
   transition: opacity 0.4s ease;
 }
+
+#canvasid {
+  background-color: lightblue;
+}
