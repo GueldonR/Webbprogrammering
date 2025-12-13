@@ -17,10 +17,28 @@ window.addEventListener("load", function () {
       this.height = height;
       this.player = new Player(this);
       this.obstacle = new Obstacle(this);
+      this.player.x; 
+      this.player.y;
+      this.player.width;
+      this.player.height;
+      this.obstacle.x; 
+      this.obstacle.y;
+      this.obstacle.width;
+      this.obstacle.height;
     }
     update() {
       this.player.update();
-      this.obstacle.update()
+      this.obstacle.update();
+
+      if (
+        this.player.x < this.obstacle.x + this.obstacle.width &&
+        this.player.x + this.player.width > this.obstacle.x &&
+        this.player.y < this.obstacle.y + this.obstacle.height &&
+        this.player.y + this.player.height > this.obstacle.y
+      ) {
+        console.log("collision");
+        // what happens if player and obst collide
+      }
     }
     draw(context) {
       this.player.draw(context);
