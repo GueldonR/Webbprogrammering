@@ -1,3 +1,10 @@
+// prevent default
+window.addEventListener("keydown", function (e) {
+  if (e.code === " ") {
+    e.preventDefault()
+  }
+})
+// game logic
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvasid");
   const ctx = canvas.getContext("2d");
@@ -9,12 +16,15 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.player = new Player(this);
+      this.obstacle = new Obstacle(this);
     }
     update() {
       this.player.update();
+      this.obstacle.update()
     }
     draw(context) {
       this.player.draw(context);
+      this.obstacle.draw(context)
     }
   }
 
@@ -68,6 +78,34 @@ window.addEventListener("load", function () {
     }
   }
 
+  class Obstacle {
+    constructor(game) {
+      this.game = game;
+      this.width = 100;
+      this.height = 100;
+      this.x = this.game.width;
+      this.groundX = this.game.width - this.width;
+      this.y = this.game.height - this.height;
+      this.speed = 10;
+    }
+  
+    update() {
+      const outOfCanvas = this.x + this.width < 0
+      this.x -= this.speed
+      // reset when going out of frame 
+      if (outOfCanvas) {
+        this.x = this.groundX;
+      }
+    }
+  
+    draw(context) {
+      context.save()
+      context.fillStyle = "red"
+      context.fillRect(this.x, this.y, this.width, this.height)
+      context.restore()
+    }
+  }
+
   class inputHandler {
     constructor() {
       this.keys = [];
@@ -90,6 +128,7 @@ window.addEventListener("load", function () {
     }
   }
 
+  // game init
   const game = new Game(canvas.width, canvas.height);
   game.draw(ctx);
   console.log(game);
