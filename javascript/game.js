@@ -38,6 +38,7 @@ window.addEventListener("load", function () {
       ) {
         console.log("collision");
         // what happens if player and obst collide
+        gameOver = true; 
       }
     }
     draw(context) {
@@ -151,12 +152,21 @@ window.addEventListener("load", function () {
   const game = new Game(canvas.width, canvas.height);
   game.draw(ctx);
   console.log(game);
+  let gameOver = false;
 
-  function animate() {
+  function animate(bool) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    game.update();
-    game.draw(ctx);
-    requestAnimationFrame(animate);
+    if (!gameOver){
+      game.update();
+      game.draw(ctx);
+      requestAnimationFrame(animate(bool));
+    }
+    else {
+      ctx.fillStyle = "black";
+      ctx.font = "30px Arial";
+      ctx.fillText("GAME OVER", canvas.width / 2 - 80, canvas.height / 2);
+    }
+   
   }
   animate();
 });
