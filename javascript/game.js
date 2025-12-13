@@ -97,6 +97,7 @@ window.addEventListener("load", function () {
   }
 
   class Obstacle {
+    
     constructor(game) {
       this.game = game;
       this.width = 100;
@@ -104,7 +105,7 @@ window.addEventListener("load", function () {
       this.x = this.game.width;
       this.groundX = this.game.width - this.width;
       this.y = this.game.height - this.height;
-      this.speed = 10;
+      this.speed = 7;
     }
   
     update() {
