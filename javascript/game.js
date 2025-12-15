@@ -6,6 +6,8 @@ window.addEventListener("keydown", function (e) {
 })
 // game logic
 window.addEventListener("load", function () {
+  let gameStarted = false;
+  let gameOver = false;
   const canvas = document.getElementById("canvasid");
   const ctx = canvas.getContext("2d");
   canvas.width = 500;
@@ -107,22 +109,36 @@ window.addEventListener("load", function () {
       this.groundX = this.game.width - this.width;
       this.y = this.game.height - this.height;
       this.speed = 7;
+      // definera transformationen 
+      this.scalingY = 1;
+      this.scalingX = 1;
     }
   
     update() {
       const outOfCanvas = this.x + this.width < 0
       this.x -= this.speed
-      // reset when going out of frame 
+      // reset when out of frame
       if (outOfCanvas) {
         this.x = this.groundX;
+
+        this.scalingY = Math.random() * (2 - 1) + 1;;
+
+        this.scale = (this.scalingX, this.scalingY);
+        console.log(this.scale);
       }
     }
   
     draw(context) {
-      context.save()
-      context.fillStyle = "red"
-      context.fillRect(this.x, this.y, this.width, this.height)
-      context.restore()
+      context.save();
+
+      context.translate(this.x + this.width / 2, this.y + this.height / 2);
+    
+      context.scale(this.scalingX, this.scalingY);
+    
+      context.fillStyle = "red";
+      context.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    
+      context.restore();
     }
   }
 
@@ -152,21 +168,42 @@ window.addEventListener("load", function () {
   const game = new Game(canvas.width, canvas.height);
   game.draw(ctx);
   console.log(game);
-  let gameOver = false;
 
-  function animate(bool) {
+  function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (!gameOver){
+    if (!gameStarted) {
+      ctx.drawImage(playButton, 190, 250);
+      return;
+    }
+    if (!gameOver) {
       game.update();
       game.draw(ctx);
-      requestAnimationFrame(animate(bool));
-    }
-    else {
+      requestAnimationFrame(animate);
+    } else {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
-      ctx.fillText("GAME OVER", canvas.width / 2 - 80, canvas.height / 2);
+      ctx.fillText("GAME OVER", 160, 250);
+      ctx.fillText("Press enter to play again", 100, 100);
     }
-   
   }
+  
+  function startGame() {
+    if (!gameStarted) {
+      gameStarted = true;
+      requestAnimationFrame(animate);
+    }
+  }
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      startGame();
+    }
+  });
+
   animate();
 });
+
+// to do 
+// create button class to make clickable button.
+// refactor gameplay loop, so that the player can restart the game. 
+// add sprite animations 
+//
