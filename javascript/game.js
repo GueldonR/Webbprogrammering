@@ -1,180 +1,275 @@
-// prevent default
+// prevent default space scroll
 window.addEventListener("keydown", function (e) {
-  if (e.code === " ") {
-    e.preventDefault()
-  }
-})
-// game logic
+  if (e.code === " ") e.preventDefault();
+});
+
 window.addEventListener("load", function () {
   let gameStarted = false;
   let gameOver = false;
+
   const canvas = document.getElementById("canvasid");
   const ctx = canvas.getContext("2d");
   canvas.width = 500;
   canvas.height = 500;
 
-  class Game {
-    constructor(width, height) {
+  // ====== Button Class ======
+  class Button {
+    constructor(x, y, width, height, text, onClick) {
+      this.x = x;
+      this.y = y;
       this.width = width;
       this.height = height;
-      this.player = new Player(this);
-      this.obstacle = new Obstacle(this);
-      this.player.x; 
-      this.player.y;
-      this.player.width;
-      this.player.height;
-      this.obstacle.x; 
-      this.obstacle.y;
-      this.obstacle.width;
-      this.obstacle.height;
+      this.text = text;
+      this.onClick = onClick;
     }
+
+    draw(ctx) {
+      ctx.fillStyle = "blue";
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.fillStyle = "white";
+      ctx.font = "20px Arial";
+      ctx.fillText(this.text, this.x + 10, this.y + this.height / 2 + 7);
+    }
+
+    isClicked(mouseX, mouseY) {
+      return (
+        mouseX >= this.x &&
+        mouseX <= this.x + this.width &&
+        mouseY >= this.y &&
+        mouseY <= this.y + this.height
+      );
+    }
+  }
+
+  // ====== Input Handler ======
+  class InputHandler {
+    constructor() {
+      this.keys = [];
+      window.addEventListener("keydown", (e) => {
+        if (e.key === " " && !this.keys.includes(" ")) {
+          this.keys.push(" ");
+        }
+      });
+      window.addEventListener("keyup", (e) => {
+        if (e.key === " ") this.keys.splice(this.keys.indexOf(" "), 1);
+      });
+    }
+  }
+
+
+  // ====== Player ======
+  
+  class Player {
+    constructor(game, image) {
+      this.game = game;
+      this.width = 100;
+      this.height = 91.3;
+      this.x = 0;
+      this.y = this.game.height - this.height;
+      this.velocityY = 0;
+      this.gravity = 0.5;
+      this.jumpPower = -15;
+      this.groundY = this.game.height - this.height;
+      this.image = image;
+      this.input = new InputHandler();
+
+      // sprite animation
+      this.frameX = 0;
+      this.framesetY = 0;
+      this.maxFrame = 3; 
+      this.frameTimer = 0;
+      this.frameInterval = 10;
+    }
+
     update() {
+      const onGround = this.y >= this.groundY;
+      if (this.input.keys.includes(" ") && onGround) {
+        this.velocityY = this.jumpPower;
+      }
+
+      this.velocityY += this.gravity;
+      this.y += this.velocityY;
+
+      if(onGround){
+        this.framesetY=3
+      }else{
+        if(this.velocityY>0){
+          this.framesetY=2;
+        }
+        else{
+          this.framesetY=1;
+        }
+  
+      }
+
+      if (this.y >= this.groundY) {
+        this.y = this.groundY;
+        this.velocityY = 0;
+      }
+
+      // sprite animation
+      this.frameX+=0.15;
+      if(this.frameX>6) this.frameX=0;
+    }
+
+    draw(ctx) {
+      ctx.drawImage(
+        this.image,
+        Math.floor(this.frameX) * this.width,
+        this.framesetY * this.height,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+  }
+
+  // ====== Obstacle ======
+  class Obstacle {
+    constructor(game) {
+      this.game = game;
+      this.width = 100;
+      this.height = 100;
+      this.x = this.game.width;
+      this.y = this.game.height - this.height;
+      this.speed = 7;
+      this.scalingX = 1;
+      this.scalingY = 1;
+    }
+
+    update() {
+      this.x -= this.speed;
+      if (this.x + this.width < 0) {
+        this.x = this.game.width;
+        this.scalingY = Math.random() * (2 - 1) + 1; 
+      }
+    }
+
+    draw(ctx) {
+      ctx.save();
+      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+      ctx.scale(this.scalingX, this.scalingY);
+      ctx.fillStyle = "red";
+      ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+      ctx.clip 
+      ctx.restore();
+    }
+  }
+
+  // ====== Sun ======
+  class Sun {
+    constructor(game) {
+      this.game = game;
+      this.radius = 30;
+      this.x = 50;
+      this.y = 50;
+      this.speed = 0.5; // horizontal speed
+    }
+  
+    update() {
+      // move sun horizontally, loop back
+      this.x += this.speed;
+      if (this.x - this.radius > this.game.width) {
+        this.x = -this.radius;
+      }
+    }
+  
+    draw(ctx) {
+      ctx.save();
+  
+      
+      ctx.beginPath();
+      ctx.rect(0, 0, this.game.width, 100); 
+      ctx.clip();
+   
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+  
+      ctx.restore();
+    }
+  }
+
+  // ====== Game ======
+  class Game {
+    constructor(width, height) {
+      this.sun = new Sun(this);
+      this.width = width;
+      this.height = height;
+      this.player = new Player(this, player); // player sprite element
+      this.obstacle = new Obstacle(this);
+    }
+
+    update() {
+      this.sun.update();
       this.player.update();
       this.obstacle.update();
 
+      // collision
       if (
         this.player.x < this.obstacle.x + this.obstacle.width &&
         this.player.x + this.player.width > this.obstacle.x &&
         this.player.y < this.obstacle.y + this.obstacle.height &&
         this.player.y + this.player.height > this.obstacle.y
       ) {
-        console.log("collision");
-        // what happens if player and obst collide
-        gameOver = true; 
+        gameOver = true;
       }
     }
-    draw(context) {
-      this.player.draw(context);
-      this.obstacle.draw(context)
+
+    draw(ctx) {
+      this.sun.draw(ctx);
+      this.player.draw(ctx);
+      this.obstacle.draw(ctx);
+    }
+
+    reset() {
+      this.player.x = 0;
+      this.player.y = this.height - this.player.height;
+      this.player.velocityY = 0;
+      this.player.frameX = 0;
+      this.obstacle.x = this.width;
+      this.obstacle.scalingX = 1;
+      this.obstacle.scalingY = 1;
+      gameOver = false;
+      requestAnimationFrame(animate);
     }
   }
 
-  class Player {
-    constructor(game) {
-      this.game = game;
-      this.width = 100;
-      this.height = 91.3;
-      this.x = 0;
-      this.y = this.game.height - this.height;
-      this.image = player; //  id selection of the sprite
-      this.input = new inputHandler();
-      this.velocityY = 0;
-      this.gravity = 0.5;
-      this.jumpPower = -15;
-      this.groundY = this.game.height - this.height;
-    }
-    update() {
-      // Check if on ground
-      const onGround = this.y >= this.groundY;
-      
-      // Jump when space is pressed and on ground
-      if (this.input.keys.includes(" ") && onGround) {
-        this.velocityY = this.jumpPower;
-      }
-      
-      // Gravity
-      this.velocityY += this.gravity;
-      
-      // Update position
-      this.y += this.velocityY;
-      
-      // Stop falling when hitting ground
-      if (this.y >= this.groundY) {
-        this.y = this.groundY;
-        this.velocityY = 0;
-      }
-    }
-    draw(context) {
-      context.drawImage(
-        this.image,
-        0,
-        0,
-        this.width,
-        this.height,
-        this.x,
-        this.y,
-        this.height,
-        this.width
-      );
-    }
-  }
+  // ====== Start Button ======
+  const playButtonInstance = new Button(190, 250, 120, 50, "PLAY", startGame);
 
-  class Obstacle {
-    
-    constructor(game) {
-      this.game = game;
-      this.width = 100;
-      this.height = 100;
-      this.x = this.game.width;
-      this.groundX = this.game.width - this.width;
-      this.y = this.game.height - this.height;
-      this.speed = 7;
-      // definera transformationen 
-      this.scalingY = 1;
-      this.scalingX = 1;
+  canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    if (!gameStarted && playButtonInstance.isClicked(mouseX, mouseY)) {
+      startGame();
     }
-  
-    update() {
-      const outOfCanvas = this.x + this.width < 0
-      this.x -= this.speed
-      // reset when out of frame
-      if (outOfCanvas) {
-        this.x = this.groundX;
+  });
 
-        this.scalingY = Math.random() * (2 - 1) + 1;;
-
-        this.scale = (this.scalingX, this.scalingY);
-        console.log(this.scale);
-      }
-    }
-  
-    draw(context) {
-      context.save();
-
-      context.translate(this.x + this.width / 2, this.y + this.height / 2);
-    
-      context.scale(this.scalingX, this.scalingY);
-    
-      context.fillStyle = "red";
-      context.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-    
-      context.restore();
-    }
-  }
-
-  class inputHandler {
-    constructor() {
-      this.keys = [];
-      window.addEventListener("keydown", (keyevent) => {
-      // Logs space bar press and release
-        if (
-          (keyevent.key === " ") &&
-          this.keys.indexOf(keyevent.key) === -1
-        ) {
-          this.keys.push(keyevent.key);
-        }
-        console.log(keyevent.key, this.keys);
-      });
-      window.addEventListener("keyup", (keyevent) => {
-        if (keyevent.key === " ") {
-          this.keys.splice(this.keys.indexOf(keyevent.key), 1);
-        }
-        console.log(keyevent.key, this.keys);
-      });
-    }
-  }
-
-  // game init
+  // ====== Game Init ======
   const game = new Game(canvas.width, canvas.height);
-  game.draw(ctx);
-  console.log(game);
+
+  function startGame() {
+    if (!gameStarted) {
+      gameStarted = true;
+      requestAnimationFrame(animate);
+    }
+  }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     if (!gameStarted) {
-      ctx.drawImage(playButton, 190, 250);
+      playButtonInstance.draw(ctx);
       return;
     }
+
     if (!gameOver) {
       game.update();
       game.draw(ctx);
@@ -183,27 +278,21 @@ window.addEventListener("load", function () {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("GAME OVER", 160, 250);
-      ctx.fillText("Press enter to play again", 100, 100);
+      ctx.font = "20px Arial";
+      ctx.fillText("Press Enter to Restart", 140, 280);
     }
   }
-  
-  function startGame() {
-    if (!gameStarted) {
-      gameStarted = true;
-      requestAnimationFrame(animate);
-    }
-  }
+
+  // ====== Restart on Enter ======
   window.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-      startGame();
+      if (gameOver) {
+        game.reset();
+      } else if (!gameStarted) {
+        startGame();
+      }
     }
   });
 
   animate();
 });
-
-// to do 
-// create button class to make clickable button.
-// refactor gameplay loop, so that the player can restart the game. 
-// add sprite animations 
-//
