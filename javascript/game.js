@@ -152,30 +152,42 @@ window.addEventListener("load", function () {
   class Obstacle {
     constructor(game) {
       this.game = game;
-      this.width = 100;
-      this.height = 100;
+      this.baseWidth = 100;
+      this.baseHeight = 100;
+      this.width = this.baseWidth;
+      this.height = this.baseHeight;
       this.x = this.game.width;
       this.y = this.game.height - this.height;
       this.speed = 7;
-      this.scalingX = 1;
-      this.scalingY = 1;
+      this.minScaleY = 0.5;
+      this.maxScaleY = 1.2;
     }
 
     update() {
       this.x -= this.speed;
+
       if (this.x + this.width < 0) {
         this.x = this.game.width;
-        this.scalingY = Math.random() * (2 - 1) + 1;
+
+        const scaleY =
+          Math.random() * (this.maxScaleY - this.minScaleY) + this.minScaleY;
+
+        // scale obstacle
+        this.height = this.baseHeight * scaleY;
+
+        // update groundedness
+        this.y = this.game.height - this.height;
+
+        // var speed
+        this.speed += (Math.random() - 0.5) * 0.5;
+        this.speed = Math.max(0.2, this.speed);
       }
     }
 
     draw(ctx) {
       ctx.save();
-      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-      ctx.scale(this.scalingX, this.scalingY);
       ctx.fillStyle = "red";
-      ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-      //ctx.clip;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
       ctx.restore();
     }
   }
@@ -302,6 +314,7 @@ window.addEventListener("load", function () {
   canvas.addEventListener("click", (e) => {
     // to know scaling ratio for clickarea
     const rect = canvas.getBoundingClientRect();
+    console.log(rect);
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
     const mouseX = (e.clientX - rect.left) * scaleX;
