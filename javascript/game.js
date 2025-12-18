@@ -17,6 +17,7 @@ window.addEventListener("load", function () {
     constructor(x, y, width, height, text, onClick) {
       this.x = x;
       this.y = y;
+      this.image = playButton;
       this.width = width;
       this.height = height;
       this.text = text;
@@ -24,11 +25,21 @@ window.addEventListener("load", function () {
     }
 
     draw(ctx) {
-      ctx.fillStyle = "blue";
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-      ctx.fillStyle = "white";
-      ctx.font = "20px Arial";
-      ctx.fillText(this.text, this.x + 10, this.y + this.height / 2 + 7);
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      ctx.fillStyle = "black";
+      ctx.font = "30px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(
+        this.text,
+        this.x + this.width / 2,
+        this.y + this.height / 2
+      );
+
+      // Debug: draw clickable area outline
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 
     isClicked(mouseX, mouseY) {
@@ -56,9 +67,8 @@ window.addEventListener("load", function () {
     }
   }
 
-
   // ====== Player ======
-  
+
   class Player {
     constructor(game, image) {
       this.game = game;
@@ -76,7 +86,7 @@ window.addEventListener("load", function () {
       // sprite animation
       this.frameX = 0;
       this.framesetY = 0;
-      this.maxFrame = 3; 
+      this.maxFrame = 3;
       this.frameTimer = 0;
       this.frameInterval = 10;
     }
@@ -90,16 +100,14 @@ window.addEventListener("load", function () {
       this.velocityY += this.gravity;
       this.y += this.velocityY;
 
-      if(onGround){
-        this.framesetY=3
-      }else{
-        if(this.velocityY>0){
-          this.framesetY=2;
+      if (onGround) {
+        this.framesetY = 3;
+      } else {
+        if (this.velocityY > 0) {
+          this.framesetY = 2;
+        } else {
+          this.framesetY = 1;
         }
-        else{
-          this.framesetY=1;
-        }
-  
       }
 
       if (this.y >= this.groundY) {
@@ -108,8 +116,8 @@ window.addEventListener("load", function () {
       }
 
       // sprite animation
-      this.frameX+=0.15;
-      if(this.frameX>6) this.frameX=0;
+      this.frameX += 0.15;
+      if (this.frameX > 6) this.frameX = 0;
     }
 
     draw(ctx) {
@@ -144,7 +152,7 @@ window.addEventListener("load", function () {
       this.x -= this.speed;
       if (this.x + this.width < 0) {
         this.x = this.game.width;
-        this.scalingY = Math.random() * (2 - 1) + 1; 
+        this.scalingY = Math.random() * (2 - 1) + 1;
       }
     }
 
@@ -154,7 +162,7 @@ window.addEventListener("load", function () {
       ctx.scale(this.scalingX, this.scalingY);
       ctx.fillStyle = "red";
       ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-      ctx.clip 
+      //ctx.clip;
       ctx.restore();
     }
   }
@@ -166,30 +174,29 @@ window.addEventListener("load", function () {
       this.radius = 30;
       this.x = 50;
       this.y = 50;
-      this.speed = 0.5; // horizontal speed
+      this.speed = 0.5; // horizontal
     }
-  
+
     update() {
-      // move sun horizontally, loop back
+      // movement loop
       this.x += this.speed;
       if (this.x - this.radius > this.game.width) {
         this.x = -this.radius;
       }
     }
-  
+
     draw(ctx) {
       ctx.save();
-  
-      
+
       ctx.beginPath();
-      ctx.rect(0, 0, this.game.width, 100); 
+      ctx.rect(0, 0, this.game.width, 100);
       ctx.clip();
-   
+
       ctx.fillStyle = "yellow";
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fill();
-  
+
       ctx.restore();
     }
   }
@@ -240,12 +247,15 @@ window.addEventListener("load", function () {
   }
 
   // ====== Start Button ======
-  const playButtonInstance = new Button(190, 250, 120, 50, "PLAY", startGame);
+  const playButtonInstance = new Button(190, 225, 120, 50, "PLAY", startGame);
 
   canvas.addEventListener("click", (e) => {
+    // to know scaling ratio for clickarea
     const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    const mouseY = (e.clientY - rect.top) * scaleY;
 
     if (!gameStarted && playButtonInstance.isClicked(mouseX, mouseY)) {
       startGame();
@@ -277,9 +287,11 @@ window.addEventListener("load", function () {
     } else {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
-      ctx.fillText("GAME OVER", 160, 250);
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("GAME OVER", canvas.width / 2, 200);
       ctx.font = "20px Arial";
-      ctx.fillText("Press Enter to Restart", 140, 280);
+      ctx.fillText("Press Enter to Restart", canvas.width / 2, 260);
     }
   }
 
