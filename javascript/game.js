@@ -6,6 +6,7 @@ window.addEventListener("keydown", function (e) {
 window.addEventListener("load", function () {
   let gameStarted = false;
   let gameOver = false;
+  let animationTime = 0;
 
   const canvas = document.getElementById("canvasid");
   const ctx = canvas.getContext("2d");
@@ -26,20 +27,11 @@ window.addEventListener("load", function () {
 
     draw(ctx) {
       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-      ctx.fillStyle = "black";
-      ctx.font = "30px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(
-        this.text,
-        this.x + this.width / 2,
-        this.y + this.height / 2
-      );
 
-      // Debug: draw clickable area outline
-      ctx.strokeStyle = "red";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(this.x, this.y, this.width, this.height);
+      // // Debug: draw clickable area outline
+      // ctx.strokeStyle = "red";
+      // ctx.lineWidth = 2;
+      // ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 
     isClicked(mouseX, mouseY) {
@@ -67,7 +59,28 @@ window.addEventListener("load", function () {
     }
   }
 
-  // ====== Player ======
+  // ====== Score Keeping ======
+  class ScoreKeeping {
+    constructor(game) {
+      this.game = game;
+      this.score = 0;
+      this.x = 20;
+      this.y = 30;
+    }
+    update() {
+      if (!gameOver) {
+        this.score++;
+      }
+    }
+    draw(ctx) {
+      ctx.fillStyle = "black";
+      ctx.font = "20px Arial";
+      ctx.textAlign = "left";
+      ctx.fillText("Score: " + this.score, this.x, this.y);
+    }
+  }
+
+  // ====== Player =====/
 
   class Player {
     constructor(game, image) {
@@ -174,7 +187,7 @@ window.addEventListener("load", function () {
       this.radius = 30;
       this.x = 50;
       this.y = 50;
-      this.speed = 0.5; // horizontal
+      this.speed = 0.5;
     }
 
     update() {
@@ -188,16 +201,38 @@ window.addEventListener("load", function () {
     draw(ctx) {
       ctx.save();
 
-      ctx.beginPath();
-      ctx.rect(0, 0, this.game.width, 100);
-      ctx.clip();
+      // Hierarkiska transformationer (VG-krav)
+      ctx.translate(this.x, this.y);
+      ctx.rotate(animationTime * 0.01);
 
-      ctx.fillStyle = "yellow";
+      // Gradient (VG-krav)
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, this.radius);
+      g.addColorStop(0, "#ffff00");
+      g.addColorStop(1, "#ff6600");
+      ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.restore();
+    }
+  }
+
+  // Eclipse
+  class Eclipse extends Sun {
+    constructor(game) {
+      super(game);
+      this.speed = 2;
+    }
+
+    draw(ctx) {
+      // Animerad klippning (G-krav)
+      const eclipseRadius = this.radius + Math.sin(animationTime * 0.1) * 5;
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, eclipseRadius, 0, Math.PI * 2);
+      ctx.fill();
     }
   }
 
@@ -205,17 +240,28 @@ window.addEventListener("load", function () {
   class Game {
     constructor(width, height) {
       this.sun = new Sun(this);
+      this.eclipse = new Eclipse(this);
       this.width = width;
       this.height = height;
       this.player = new Player(this, player); // player sprite element
       this.obstacle = new Obstacle(this);
+      this.scoreKeeping = new ScoreKeeping(this);
     }
 
     update() {
       this.sun.update();
+      this.eclipse.update();
       this.player.update();
       this.obstacle.update();
 
+      if (
+        this.sun.x > this.eclipse.x - this.eclipse.radius &&
+        this.sun.x < this.eclipse.x + this.eclipse.radius
+      ) {
+        canvas.style.backgroundColor = "darkblue";
+      } else {
+        canvas.style.backgroundColor = "lightblue";
+      }
       // collision
       if (
         this.player.x < this.obstacle.x + this.obstacle.width &&
@@ -224,13 +270,17 @@ window.addEventListener("load", function () {
         this.player.y + this.player.height > this.obstacle.y
       ) {
         gameOver = true;
+      } else {
+        this.scoreKeeping.update();
       }
     }
 
     draw(ctx) {
       this.sun.draw(ctx);
+      this.eclipse.draw(ctx);
       this.player.draw(ctx);
       this.obstacle.draw(ctx);
+      this.scoreKeeping.draw(ctx);
     }
 
     reset() {
@@ -273,6 +323,7 @@ window.addEventListener("load", function () {
   }
 
   function animate() {
+    animationTime++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (!gameStarted) {
@@ -285,6 +336,9 @@ window.addEventListener("load", function () {
       game.draw(ctx);
       requestAnimationFrame(animate);
     } else {
+      // Game Over Screen
+      const scorekeeping = game.scoreKeeping;
+      scorekeeping.draw(ctx);
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.textAlign = "center";
