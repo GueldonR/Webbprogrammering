@@ -172,7 +172,7 @@ window.addEventListener("load", function () {
         const scaleY =
           Math.random() * (this.maxScaleY - this.minScaleY) + this.minScaleY;
 
-        // scale obstacle
+        // Update hitbox per frame
         this.height = this.baseHeight * scaleY;
 
         // update groundedness
@@ -213,7 +213,7 @@ window.addEventListener("load", function () {
     draw(ctx) {
       ctx.save();
 
-      // Hierarkiska transformationer (VG-krav)
+      // Hierarchical transformations (VG)
       ctx.translate(this.x, this.y);
       ctx.rotate(animationTime * 0.01);
 
@@ -238,7 +238,7 @@ window.addEventListener("load", function () {
     }
 
     draw(ctx) {
-      // Animerad klippning (G-krav)
+      // Animated Clipping (G-krav)
       const eclipseRadius = this.radius + Math.sin(animationTime * 0.1) * 5;
 
       ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
@@ -375,3 +375,6 @@ window.addEventListener("load", function () {
 
   animate();
 });
+
+// to do:
+//    refactor startgame function into game class
